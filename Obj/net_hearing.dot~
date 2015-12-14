@@ -1,0 +1,85 @@
+graph net_neuron{
+rankdir=LR;
+subgraph cluster_0{ "item3" [label=  "id Neurona: 3\nCategor&iacute;a: '0'"];
+}
+subgraph cluster_1{ "item8" [label=  "id Neurona: 8\nCategor&iacute;a: '1'"];
+}
+subgraph cluster_2{ "item4" [label=  "id Neurona: 4\nCategor&iacute;a: '2'"];
+}
+subgraph cluster_3{ "item9" [label=  "id Neurona: 9\nCategor&iacute;a: '3'"];
+}
+subgraph cluster_4{ "item2" [label=  "id Neurona: 2\nCategor&iacute;a: '4'"];
+}
+subgraph cluster_5{ "item5" [label=  "id Neurona: 5\nCategor&iacute;a: '5'"];
+}
+subgraph cluster_6{ "item10" [label=  "id Neurona: 10\nCategor&iacute;a: '6'"];
+}
+subgraph cluster_7{ "item6" [label=  "id Neurona: 6\nCategor&iacute;a: '7'"];
+}
+subgraph cluster_8{ "item11" [label=  "id Neurona: 11\nCategor&iacute;a: '8'"];
+}
+subgraph cluster_9{ "item7" [label=  "id Neurona: 7\nCategor&iacute;a: '9'"];
+}
+subgraph cluster_10{ "item1" [label=  "id Neurona: 1\nCategor&iacute;a: '+'"];
+}
+subgraph cluster_11{ "item0" [label=  "id Neurona: 0\nCategor&iacute;a: '='"];
+}
+subgraph cluster_12{ "item12" [label=  "id Neurona: 12\nCategor&iacute;a: 'A'"];
+}
+subgraph cluster_13{ "item13" [label=  "id Neurona: 13\nCategor&iacute;a: 'B'"];
+}
+subgraph cluster_14{ "item14" [label=  "id Neurona: 14\nCategor&iacute;a: 'C'"];
+}
+subgraph cluster_15{ "item15" [label=  "id Neurona: 15\nCategor&iacute;a: 'D'"];
+}
+subgraph cluster_16{ "item16" [label=  "id Neurona: 16\nCategor&iacute;a: 'E'"];
+}
+subgraph cluster_17{ "item32" [label=  "id Neurona: 32\nCategor&iacute;a: 'F'"];
+}
+subgraph cluster_18{ "item17" [label=  "id Neurona: 17\nCategor&iacute;a: 'G'"];
+"item40" [label=  "id Neurona: 40\nCategor&iacute;a: 'G'"];
+}
+subgraph cluster_19{ "item33" [label=  "id Neurona: 33\nCategor&iacute;a: 'H'"];
+"item41" [label=  "id Neurona: 41\nCategor&iacute;a: 'H'"];
+}
+subgraph cluster_20{ "item18" [label=  "id Neurona: 18\nCategor&iacute;a: 'I'"];
+}
+subgraph cluster_21{ "item19" [label=  "id Neurona: 19\nCategor&iacute;a: 'J'"];
+}
+subgraph cluster_22{ "item20" [label=  "id Neurona: 20\nCategor&iacute;a: 'K'"];
+}
+subgraph cluster_23{ "item21" [label=  "id Neurona: 21\nCategor&iacute;a: 'L'"];
+}
+subgraph cluster_24{ "item22" [label=  "id Neurona: 22\nCategor&iacute;a: 'M'"];
+}
+subgraph cluster_25{ "item34" [label=  "id Neurona: 34\nCategor&iacute;a: 'N'"];
+}
+subgraph cluster_26{ "item23" [label=  "id Neurona: 23\nCategor&iacute;a: 'O'"];
+}
+subgraph cluster_27{ "item35" [label=  "id Neurona: 35\nCategor&iacute;a: 'P'"];
+"item42" [label=  "id Neurona: 42\nCategor&iacute;a: 'P'"];
+}
+subgraph cluster_28{ "item24" [label=  "id Neurona: 24\nCategor&iacute;a: 'Q'"];
+"item38" [label=  "id Neurona: 38\nCategor&iacute;a: 'Q'"];
+}
+subgraph cluster_29{ "item39" [label=  "id Neurona: 39\nCategor&iacute;a: 'R'"];
+}
+subgraph cluster_30{ "item25" [label=  "id Neurona: 25\nCategor&iacute;a: 'S'"];
+}
+subgraph cluster_31{ "item26" [label=  "id Neurona: 26\nCategor&iacute;a: 'T'"];
+}
+subgraph cluster_32{ "item36" [label=  "id Neurona: 36\nCategor&iacute;a: 'U'"];
+}
+subgraph cluster_33{ "item27" [label=  "id Neurona: 27\nCategor&iacute;a: 'V'"];
+}
+subgraph cluster_34{ "item28" [label=  "id Neurona: 28\nCategor&iacute;a: 'W'"];
+}
+subgraph cluster_35{ "item29" [label=  "id Neurona: 29\nCategor&iacute;a: 'X'"];
+}
+subgraph cluster_36{ "item30" [label=  "id Neurona: 30\nCategor&iacute;a: 'Y'"];
+}
+subgraph cluster_37{ "item31" [label=  "id Neurona: 31\nCategor&iacute;a: 'Z'"];
+}
+subgraph cluster_38{ }
+
+}

@@ -1,0 +1,234 @@
+graph net_neuron{
+rankdir=LR;
+subgraph cluster_0{ }
+subgraph cluster_1{ }
+subgraph cluster_2{ }
+subgraph cluster_3{ }
+subgraph cluster_4{ }
+subgraph cluster_5{ }
+subgraph cluster_6{ }
+subgraph cluster_7{ }
+subgraph cluster_8{ }
+subgraph cluster_9{ }
+subgraph cluster_10{ }
+subgraph cluster_11{ }
+subgraph cluster_12{ }
+subgraph cluster_13{ }
+subgraph cluster_14{ }
+subgraph cluster_15{ }
+subgraph cluster_16{ }
+subgraph cluster_17{ }
+subgraph cluster_18{ }
+subgraph cluster_19{ }
+subgraph cluster_20{ }
+subgraph cluster_21{ }
+subgraph cluster_22{ }
+subgraph cluster_23{ }
+subgraph cluster_24{ }
+subgraph cluster_25{ }
+subgraph cluster_26{ }
+subgraph cluster_27{ }
+subgraph cluster_28{ }
+subgraph cluster_29{ }
+subgraph cluster_30{ }
+subgraph cluster_31{ }
+subgraph cluster_32{ }
+subgraph cluster_33{ }
+subgraph cluster_34{ }
+subgraph cluster_35{ }
+subgraph cluster_36{ }
+subgraph cluster_37{ }
+subgraph cluster_38{ }
+subgraph cluster_39{ "item39" [label=  "id Neurona: 39\nCategor&iacute;a: 'BA'"];
+}
+subgraph cluster_40{ }
+subgraph cluster_41{ }
+
+}graph net_neuron{
+rankdir=LR;
+subgraph cluster_0{ }
+subgraph cluster_1{ }
+subgraph cluster_2{ }
+subgraph cluster_3{ }
+subgraph cluster_4{ }
+subgraph cluster_5{ }
+subgraph cluster_6{ }
+subgraph cluster_7{ }
+subgraph cluster_8{ }
+subgraph cluster_9{ }
+subgraph cluster_10{ }
+subgraph cluster_11{ }
+subgraph cluster_12{ }
+subgraph cluster_13{ }
+subgraph cluster_14{ }
+subgraph cluster_15{ }
+subgraph cluster_16{ }
+subgraph cluster_17{ }
+subgraph cluster_18{ }
+subgraph cluster_19{ }
+subgraph cluster_20{ }
+subgraph cluster_21{ }
+subgraph cluster_22{ }
+subgraph cluster_23{ }
+subgraph cluster_24{ }
+subgraph cluster_25{ }
+subgraph cluster_26{ }
+subgraph cluster_27{ }
+subgraph cluster_28{ }
+subgraph cluster_29{ }
+subgraph cluster_30{ }
+subgraph cluster_31{ }
+subgraph cluster_32{ }
+subgraph cluster_33{ }
+subgraph cluster_34{ }
+subgraph cluster_35{ }
+subgraph cluster_36{ }
+subgraph cluster_37{ }
+subgraph cluster_38{ }
+subgraph cluster_39{ }
+subgraph cluster_40{ "item14" [label=  "id Neurona: 14\nCategor&iacute;a: 'C'"];
+"item12" [label=  "id Neurona: 12\nCategor&iacute;a: 'A'"];
+"item41" [label=  "id Neurona: 41\nCategor&iacute;a: 'CA'"];
+}
+subgraph cluster_41{ }
+
+}graph net_neuron{
+rankdir=LR;
+subgraph cluster_0{ }
+subgraph cluster_1{ }
+subgraph cluster_2{ }
+subgraph cluster_3{ }
+subgraph cluster_4{ }
+subgraph cluster_5{ }
+subgraph cluster_6{ }
+subgraph cluster_7{ }
+subgraph cluster_8{ }
+subgraph cluster_9{ }
+subgraph cluster_10{ }
+subgraph cluster_11{ }
+subgraph cluster_12{ }
+subgraph cluster_13{ }
+subgraph cluster_14{ }
+subgraph cluster_15{ }
+subgraph cluster_16{ }
+subgraph cluster_17{ }
+subgraph cluster_18{ }
+subgraph cluster_19{ }
+subgraph cluster_20{ }
+subgraph cluster_21{ }
+subgraph cluster_22{ }
+subgraph cluster_23{ }
+subgraph cluster_24{ }
+subgraph cluster_25{ }
+subgraph cluster_26{ }
+subgraph cluster_27{ }
+subgraph cluster_28{ }
+subgraph cluster_29{ }
+subgraph cluster_30{ }
+subgraph cluster_31{ }
+subgraph cluster_32{ }
+subgraph cluster_33{ }
+subgraph cluster_34{ }
+subgraph cluster_35{ }
+subgraph cluster_36{ }
+subgraph cluster_37{ }
+subgraph cluster_38{ }
+subgraph cluster_39{ }
+subgraph cluster_40{ }
+subgraph cluster_41{ }
+
+}graph net_neuron{
+rankdir=LR;
+subgraph cluster_0{ }
+subgraph cluster_1{ }
+subgraph cluster_2{ }
+subgraph cluster_3{ }
+subgraph cluster_4{ }
+subgraph cluster_5{ }
+subgraph cluster_6{ }
+subgraph cluster_7{ }
+subgraph cluster_8{ }
+subgraph cluster_9{ }
+subgraph cluster_10{ }
+subgraph cluster_11{ }
+subgraph cluster_12{ }
+subgraph cluster_13{ }
+subgraph cluster_14{ }
+subgraph cluster_15{ }
+subgraph cluster_16{ }
+subgraph cluster_17{ }
+subgraph cluster_18{ }
+subgraph cluster_19{ }
+subgraph cluster_20{ }
+subgraph cluster_21{ }
+subgraph cluster_22{ }
+subgraph cluster_23{ }
+subgraph cluster_24{ }
+subgraph cluster_25{ }
+subgraph cluster_26{ }
+subgraph cluster_27{ }
+subgraph cluster_28{ }
+subgraph cluster_29{ }
+subgraph cluster_30{ }
+subgraph cluster_31{ }
+subgraph cluster_32{ }
+subgraph cluster_33{ }
+subgraph cluster_34{ }
+subgraph cluster_35{ }
+subgraph cluster_36{ }
+subgraph cluster_37{ }
+subgraph cluster_38{ }
+subgraph cluster_39{ "item41" [label=  "id Neurona: 41\nCategor&iacute;a: 'BA'"];
+}
+subgraph cluster_40{ }
+subgraph cluster_41{ }
+
+}graph net_neuron{
+rankdir=LR;
+subgraph cluster_0{ }
+subgraph cluster_1{ }
+subgraph cluster_2{ }
+subgraph cluster_3{ }
+subgraph cluster_4{ }
+subgraph cluster_5{ }
+subgraph cluster_6{ }
+subgraph cluster_7{ }
+subgraph cluster_8{ }
+subgraph cluster_9{ }
+subgraph cluster_10{ }
+subgraph cluster_11{ }
+subgraph cluster_12{ }
+subgraph cluster_13{ }
+subgraph cluster_14{ }
+subgraph cluster_15{ }
+subgraph cluster_16{ }
+subgraph cluster_17{ }
+subgraph cluster_18{ }
+subgraph cluster_19{ }
+subgraph cluster_20{ }
+subgraph cluster_21{ }
+subgraph cluster_22{ }
+subgraph cluster_23{ }
+subgraph cluster_24{ }
+subgraph cluster_25{ }
+subgraph cluster_26{ }
+subgraph cluster_27{ }
+subgraph cluster_28{ }
+subgraph cluster_29{ }
+subgraph cluster_30{ }
+subgraph cluster_31{ }
+subgraph cluster_32{ }
+subgraph cluster_33{ }
+subgraph cluster_34{ }
+subgraph cluster_35{ }
+subgraph cluster_36{ }
+subgraph cluster_37{ }
+subgraph cluster_38{ }
+subgraph cluster_39{ }
+subgraph cluster_40{ "item14" [label=  "id Neurona: 14\nCategor&iacute;a: 'C'"];
+"item12" [label=  "id Neurona: 12\nCategor&iacute;a: 'A'"];
+"item41" [label=  "id Neurona: 41\nCategor&iacute;a: 'CA'"];
+}
+subgraph cluster_41{ }
+
+}
