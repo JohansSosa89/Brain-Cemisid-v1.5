@@ -137,7 +137,7 @@ void MainWindow::generateVectorsCharacteristic(){
     characteristicVectorEar = chemicalLayerEar->generateCharacteristic();
     characteristicVectorEye = chemicalLayerEye->generateCharacteristic();
     //std::cout << std::string(characteristicVectorEar);
-    std::cout<<std::endl;
+
 }
 
 void MainWindow::on_checkBox_cuento_clicked(){
@@ -150,7 +150,13 @@ void MainWindow::on_checkBox_cuento_clicked(){
 }
 
 void MainWindow::addition(struct queue &up, struct queue &down){
-    std::cout<<"MainWindow::addition"<<endl;
+    std::cout<<"MainWindow::addition"<<std::endl;
+    std::cout<<"Cola1"<<std::endl;
+    sumQueue->showQueue(up);
+    std::cout<<std::endl;
+    std::cout<<"Cola2"<<std::endl;
+    sumQueue->showQueue(down);
+    std::cout<<std::endl;
 
     int i = 0;
     int l_up = sumQueue->queueLenght(up);
@@ -163,12 +169,34 @@ void MainWindow::addition(struct queue &up, struct queue &down){
     int carry=0;
     int result_int = 0;
     int l_result = 0;
+    int dif = 0;
     QString text = "";
     QString reverse = "";
-    if(l_up <= l_down)
+
+    if(l_up <= l_down){
         aux = l_up;
-    else
+
+        dif = l_down - l_up;
+        for(int a = 0; a<dif; a++){
+            sumQueue->enqueue(up,0);
+        }
+    }
+    else{
         aux = l_down;
+
+        dif = l_up - l_down;
+        for(int a = 0; a<dif; a++){
+            sumQueue->enqueue(down,0);
+        }
+    }
+
+    std::cout<<"Cola1 modificada"<<std::endl;
+    sumQueue->showQueue(up);
+    std::cout<<std::endl;
+    std::cout<<"Cola2 modificada"<<std::endl;
+    sumQueue->showQueue(down);
+    std::cout<<std::endl;
+
     while(i < aux){
         k=1;
         j=1;
@@ -194,12 +222,14 @@ void MainWindow::addition(struct queue &up, struct queue &down){
     }
     if((t_up + t_down) >= 10)
         sumQueue->enqueue(result,carry);
+
     ui->textBrowser->show();
     l_result = sumQueue->queueLenght(result);
     for(j=0; j<l_result; j++){
         result_int = sumQueue->dequeue(result);
         text = text + QString::number(result_int);
     }
+    std::cout<<"valor de l_result: "<<l_result<<std::endl;
     for(j=l_result; j>=0; j--){
         reverse = reverse + text[j];
         sumNetwork->vectorNetworkSum[j] = 1;
@@ -238,6 +268,7 @@ void MainWindow::processGrid(){
             if(countNetwork->vectorNetworkCount[kNeuron]== 1){
                 if(stateSenses[SIGHT] == IS_HIT){
                     std::cout<<"Número asociado a una cantidad conocida"<<endl;
+
                 }else{
                     countNetwork->clackPointer[kNeuron] = kNeuron;
                     orderNetwork->order[kNeuron] = 1;
@@ -266,7 +297,17 @@ void MainWindow::processGrid(){
         }
         //hace el llamado al formteaching de la vista
         //pasa como parametro la categoria y el estado de la neurona(HIT, DIFF, NO_HIT)
-        formsTeaching[SIGHT]->setState(stateSenses[SIGHT], interface[SIGHT].arrayCategory[0]);
+
+        if(stateSenses[SIGHT]== IS_HIT){
+            cout<<"neurona hizo hit"<<endl;
+            showPanelThinking(SIGHT, interface[SIGHT].id[0], interface[SIGHT].arrayCategory[0]);
+            chemicalLayerEye->clear();
+        }
+        else{
+            cout<<"neurona hizo diff o no hit"<<endl;
+            formsTeaching[SIGHT]->setState(stateSenses[SIGHT], interface[SIGHT].arrayCategory[0]);
+        }
+
     }else
         isInactivateSense[SIGHT] = true;
 
@@ -282,23 +323,25 @@ void MainWindow::processGrid(){
                     if(sum_loop == 0){
                         if(interface[HEARING].arrayCategory[0] == '+'){
                             sum_loop = 1;
-                        }else
+                        }else{
                             for(k; k<=orderNeuron; k++){
                                 if(orderNetwork->numRelation[k] == interface[HEARING].id[0])
                                     break;
                             }
                             sumQueue->enqueue(adding_up, k-1);
+                        }
                     }
                     else if(sum_loop == 1){
                         if(interface[HEARING].arrayCategory[0] == '='){
                             addition(adding_up, adding_down);
                             sum_loop = 0;
-                        }else
+                        }else{
                             for(k; k<=orderNeuron; k++){
                                 if(orderNetwork->numRelation[k] == interface[HEARING].id[0])
                                     break;
                             }
-                        sumQueue->enqueue(adding_down, k-1);
+                            sumQueue->enqueue(adding_down, k-1);
+                        }
                     }
                 }else{
                     sumQueue->clearQueue(adding_down);
@@ -322,6 +365,7 @@ void MainWindow::processGrid(){
                         std::cout<<"NO CONSEGUI NUMERO NEURONAL"<<endl;
                     }else{
 
+                        //hace el llamado al metodo de conteo
                         paintCount(k-1);
                     }
                  }else{
@@ -331,7 +375,12 @@ void MainWindow::processGrid(){
                 if(countNetwork->vectorNetworkCount[kNeuron]== 1){
                     if(stateSenses[HEARING] == IS_HIT && !ui->checkBox_suma->isChecked()){
                         orderNetwork->numRelation[kNeuron] = interface[HEARING].id[0];
-                        std::cout<<interface[HEARING].id[0]<<endl;
+                        if(interface[HEARING].id == NULL)
+                            std::cout<<"este id esta null"<<std::endl;
+                        else
+                            std::cout<<"este id no esta null"<<std::endl;
+
+                        std::cout<<"este es el id: "<<interface[HEARING].id<<endl;
                         std::cout<<"Número asociado a una cantidad conocida"<<endl;
                         if(kNeuron>orderNeuron){
                             orderNeuron=kNeuron;
@@ -364,7 +413,17 @@ void MainWindow::processGrid(){
         }
         //hace el llamado al formteaching del oido
         //pasa como parametro la categoria y el estado de la neurona(HIT, DIFF, NO_HIT)
-        formsTeaching[HEARING]->setState(stateSenses [HEARING], interface[HEARING].arrayCategory[0]);
+        //formsTeaching[HEARING]->setState(stateSenses[HEARING], interface[HEARING].arrayCategory[0]);
+
+        if(stateSenses[HEARING]== IS_HIT && (ui->checkBox_leer->isChecked() || ui->checkBox_syl->isChecked())){
+            cout<<"neurona hizo hit"<<endl;
+            showPanelThinking(HEARING, returnID(word2), returnCategory(word2));
+            chemicalLayerEye->clear();
+        }
+        else{
+            cout<<"neurona hizo diff o no hit"<<endl;
+            formsTeaching[HEARING]->setState(stateSenses[HEARING], interface[HEARING].arrayCategory[0]);
+        }
     }else
         isInactivateSense[HEARING] = true;
     kNeuron = 1;
@@ -574,14 +633,16 @@ void MainWindow::activeLayers(bool active){
     }else{
         activateInterface(active);
         word.clear();
+
+        ///AQUI TENGO QUE BUSCAR//////
         if(ui->checkBox_leer->isChecked() || ui->checkBox_syl->isChecked()){
             if(nsyllab != 0){
-                ui->pushButtonBNSWord->show();
+                /*ui->pushButtonBNSWord->show();
                 ui->pushButtonCorrectWord->show();
                 ui->pushButtonImage->show();
                 ui->pushButtonImages->show();
                 ui->pushButtonSoundWord->show();
-                ui->textBrowserWord->show();
+                ui->textBrowserWord->show();*/
                 QString text(QString::number(nsyllab) + " sílaba(s): " + word2);
                 ui->textBrowserWord->setText(text);
                 ofstream file("./Obj/net_hearing_syl.dot",ios::app);
@@ -748,6 +809,20 @@ void MainWindow::showDialogInstructions(){
     dialogInstructions = NULL;
 }
 
+void MainWindow::showPanelThinking(senses sense, int ptr, int categoryNeuron){
+    panelThinking = new panelthinking(0,neuralSenses);
+    panelThinking->setWindowModality(Qt::WindowModal);
+    panelThinking->setSenses(sense);
+    panelThinking->setPtr(ptr);
+    panelThinking->setCategory(categoryNeuron);
+    this->setVisible(false);
+    if(panelThinking->exec() == QDialog::Rejected)
+        this->setVisible(true);
+
+    freeGenericPtr(panelThinking);
+    panelThinking = NULL;
+}
+
 void MainWindow::aboutBrainCemisid(){
     std::cout<<"MainWindow::aboutBrainCemisid"<<endl;
 
@@ -862,7 +937,7 @@ void MainWindow::launchWave(){
             continue;
         for (int i = 0; i < SIZE_CHARACTERISTIC/2 ; i++)
             temp[i]=neuralSenses[HEARING].binaryCharacteristic[indexNeuron * SIZE_CHARACTERISTIC/2 + i];  //obtengo el vector desde la neurona con conocimiento
-        chemicalLayerEar->paintPattern(temp,SIZE_CHARACTERISTIC/2);
+        chemicalLayerEar->paintPattern(temp,SIZE_CHARACTERISTIC/2);// pintar el patron en el grid
         break;
     }
 }
@@ -883,6 +958,7 @@ void MainWindow::runCrossing(){
     formsTeaching[SIGHT]->getPtrButtonTeach()->setEnabled(true);
 }
 
+///REVISAR MUY BIEN ESTA FUNCION//////
 void MainWindow::generateDot(QString nameFile, senses sense, bool onlyHits){
     std::cout<<"MainWindow::generateDot"<<endl;
 
@@ -893,7 +969,7 @@ void MainWindow::generateDot(QString nameFile, senses sense, bool onlyHits){
     centinel= (onlyHits) ?*(interface[sense].hits) : *(neuralSenses[sense].ptr);
     file<<"graph net_neuron{\n";
     file<<"rankdir=LR;\n";
-    for(int j=0; j <= 81;j++){
+    for(int j=0; j <= 103;j++){
         file<<"subgraph cluster_"<<j<<"{ ";
         for(int i = 0; i < centinel ; i++){
             id=(onlyHits) ? interface[sense].id[i] : i;
@@ -1111,6 +1187,140 @@ void MainWindow::generateDot(QString nameFile, senses sense, bool onlyHits){
                         file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'COBRA'\"];\n";
                     }
                 }
+                ///PALABRAS AGREGADAS POR JOHAN SOSA//////////
+                if(j == 82 && category == 55){
+                    if(sense == SIGHT){
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'UN'\"];\n";
+                    }
+                }
+                if(j==83 && category==56){
+                    if(sense == SIGHT){
+                        file<<"\"item83UN\" [label=  \"id Neurona: 82\\nCategor&iacute;a: 'UN'\"];\n";
+                        file<<"\"item83O\" [label=  \"id Neurona: 26\\nCategor&iacute;a: 'O'\"];\n";
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'UNO'\"];\n";
+                    }
+                }
+                if(j==84 && category==57){
+                    if(sense == SIGHT){
+                        file<<"\"item84DO\" [label=  \"id Neurona: 65\\nCategor&iacute;a: 'DO'\"];\n";
+                        file<<"\"item84S\" [label=  \"id Neurona: 30\\nCategor&iacute;a: 'S'\"];\n";
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'DOS'\"];\n";
+                    }
+                }
+                if(j==85 && category==58){
+                    if(sense == SIGHT){
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'TRE'\"];\n";
+                    }
+                }
+                if(j==86 && category==59){
+                    if(sense == SIGHT){
+                        file<<"\"item86TRE\" [label=  \"id Neurona: 85\\nCategor&iacute;a: 'TRE'\"];\n";
+                        file<<"\"item86S\" [label=  \"id Neurona: 30\\nCategor&iacute;a: 'S'\"];\n";
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'TRES'\"];\n";
+                    }
+                }
+                if(j==87 && category==60){
+                    if(sense == SIGHT){
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'TRO'\"];\n";
+                    }
+                }
+                if(j==88 && category==62){
+                    if(sense == SIGHT){
+                        file<<"\"item88CU\" [label=  \"id Neurona: 58\\nCategor&iacute;a: 'CU'\"];\n";
+                        file<<"\"item88A\" [label=  \"id Neurona: 12\\nCategor&iacute;a: 'A'\"];\n";
+                        file<<"\"item88TRO\" [label=  \"id Neurona: 87\\nCategor&iacute;a: 'TRO'\"];\n";
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'CUATRO'\"];\n";
+                    }
+                }
+                if(j==89 && category==63){
+                    if(sense == SIGHT){
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'CIN'\"];\n";
+                    }
+                }
+                if(j==90 && category==64){
+                    if(sense == SIGHT){
+                        file<<"\"item90CIN\" [label=  \"id Neurona: 89\\nCategor&iacute;a: 'CIN'\"];\n";
+                        file<<"\"item90CO\" [label=  \"id Neurona: 55\\nCategor&iacute;a: 'CO'\"];\n";
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'CINCO'\"];\n";
+                    }
+                }
+                if(j==91 && category==91){
+                    if(sense == SIGHT){
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'SE'\"];\n";
+                    }
+                }
+                if(j==92 && category==92){
+                    if(sense == SIGHT){
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'IS'\"];\n";
+                    }
+                }
+                if(j==93 && category==93){
+                    if(sense == SIGHT){
+                        file<<"\"item93SE\" [label=  \"id Neurona: 91\\nCategor&iacute;a: 'SE'\"];\n";
+                        file<<"\"item93IS\" [label=  \"id Neurona: 92\\nCategor&iacute;a: 'IS'\"];\n";
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'SEIS'\"];\n";
+                    }
+                }
+                if(j==94 && category==94){
+                    if(sense == SIGHT){
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'SI'\"];\n";
+                    }
+                }
+                if(j==95 && category==95){
+                    if(sense == SIGHT){
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'TE'\"];\n";
+                    }
+                }
+                if(j==96 && category==96){
+                    if(sense == SIGHT){
+                        file<<"\"item96SI\" [label=  \"id Neurona: 94\\nCategor&iacute;a: 'SI'\"];\n";
+                        file<<"\"item96E\" [label=  \"id Neurona: 16\\nCategor&iacute;a: 'E'\"];\n";
+                        file<<"\"item96TE\" [label=  \"id Neurona: 95\\nCategor&iacute;a: 'TE'\"];\n";
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'SIETE'\"];\n";
+                    }
+                }
+                if(j==97 && category==97){
+                    if(sense == SIGHT){
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'CHO'\"];\n";
+                    }
+                }
+                if(j==98 && category==98){
+                    if(sense == SIGHT){
+                        file<<"\"item98O\" [label=  \"id Neurona: 26\\nCategor&iacute;a: 'O'\"];\n";
+                        file<<"\"item98CHO\" [label=  \"id Neurona: 97\\nCategor&iacute;a: 'CHO'\"];\n";
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'OCHO'\"];\n";
+                    }
+                }
+                if(j==99 && category==99){
+                    if(sense == SIGHT){
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'NU'\"];\n";
+                    }
+                }
+                if(j==100 && category==100){
+                    if(sense == SIGHT){
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'VE'\"];\n";
+                    }
+                }
+                if(j==101 && category==101){
+                    if(sense == SIGHT){
+                        file<<"\"item101NU\" [label=  \"id Neurona: 99\\nCategor&iacute;a: 'NU'\"];\n";
+                        file<<"\"item101E\" [label=  \"id Neurona: 16\\nCategor&iacute;a: 'E'\"];\n";
+                        file<<"\"item101VE\" [label=  \"id Neurona: 100\\nCategor&iacute;a: 'VE'\"];\n";
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'NUEVE'\"];\n";
+                    }
+                }
+                if(j==102 && category==102){
+                    if(sense == SIGHT){
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'RO'\"];\n";
+                    }
+                }
+                if(j==103 && category==103){
+                    if(sense == SIGHT){
+                        file<<"\"item103CE\" [label=  \"id Neurona: 46\\nCategor&iacute;a: 'CE'\"];\n";
+                        file<<"\"item103RO\" [label=  \"id Neurona: 102\\nCategor&iacute;a: 'RO'\"];\n";
+                        file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'CERO'\"];\n";
+                    }
+                }
             }else{
                 switch(category){
                 case 0://if(category == 0)
@@ -1259,15 +1469,18 @@ void MainWindow::realLearn(senses sense){
 }
 
 int MainWindow::returnCategory(QString cad){
-    std::cout<<"MainWindow::returnCategory"<<endl;
+    //std::cout<<"MainWindow::returnCategory"<<endl;
 
     if(cad != "=" && cad != "+" && cad != "A" && cad != "B" && cad != "C" && cad != "D" && cad != "E" && cad != "F" && cad != "G" && cad != "H" && cad != "I" && cad != "J" && cad != "K"
             && cad != "L" && cad != "M" && cad != "N" && cad != "O" && cad != "P" && cad != "Q" && cad != "R" && cad != "S" && cad != "T" && cad != "U" && cad != "V" && cad != "W" && cad != "X"
             && cad != "Y" && cad != "Z" && cad != "AB" && cad != "BA" && cad != "CA" && cad != "LLO" && cad != "CABALLO" && cad != "SA" && cad != "CASA" && cad != "PO" && cad != "SAPO" && cad != "GA" && cad != "TO" && cad != "GATO" && cad != "PA"
             && cad != "PATO" && cad != "RRO" && cad != "CARRO" && cad != "GALLO" && cad != "CO" && cad != "BRA" && cad != "COBRA" && cad != "CU" && cad != "LE" && cad != "CULEBRA" && cad != "ON" && cad != "LEON" && cad != "VE"
             && cad != "NA" && cad != "DO" && cad != "VENADO" && cad != "VION" && cad != "AVION" && cad != "COCO" && cad != "DA" && cad != "RA" && cad != "CE" && cad != "TA" && cad != "DIS" && cad != "JO" && cad != "AR"
-            && cad != "BOL" && cad != "GO" && cad != "RRA" && cad != "DRI" && cad != "LO")
+            && cad != "BOL" && cad != "GO" && cad != "RRA" && cad != "DRI" && cad != "LO" /*&& cad != "UN" && cad != "UNO" && cad != "DOS" && cad != "TRE" && cad != "TRES" && cad != "TRO" && cad != "CUATRO" && cad != "CIN"
+            && cad != "CINCO" && cad != "SE" && cad != "IS" && cad != "SEIS" && cad != "SI" && cad != "TE" && cad != "SIETE" && cad != "CHO" && cad != "OCHO" && cad != "NU" && cad != "VE" && cad != "NUEVE" && cad != "RO" && cad != "CERO"*/)
         return cad.toInt();
+    std::cout<<cad.toInt()<<std::endl;
+
     if (cad == "=")
         return '=';
     if(cad == "+")
@@ -1412,6 +1625,51 @@ int MainWindow::returnCategory(QString cad){
         return 53;
     if(cad == "COBRA")
         return 54;
+    ////revisar estas categorias///
+    if(cad == "UN")
+        return 55;
+    if(cad == "UNO")
+        return 56;
+    if(cad == "DOS")
+        return 57;
+    if(cad == "TRE")
+        return 58;
+    if(cad == "TRES")
+        return 59;
+    if(cad == "TRO")
+        return 60;
+    if(cad == "CUATRO")
+        return 62;
+    if(cad == "CIN")
+        return 63;
+    if(cad == "CINCO")
+        return 64;
+    if(cad == "SE")
+        return 91;
+    if(cad == "IS")
+        return 92;
+    if(cad == "SEIS")
+        return 93;
+    if(cad == "SI")
+        return 94;
+    if(cad == "TE")
+        return 95;
+    if(cad == "SIETE")
+        return 96;
+    if(cad == "CHO")
+        return 97;
+    if(cad == "OCHO")
+        return 98;
+    if(cad == "NU")
+        return 99;
+    if(cad == "VE")
+        return 100;
+    if(cad == "NUEVE")
+        return 101;
+    if(cad == "RO")
+        return 102;
+    if(cad == "CERO")
+        return 103;
     exit(1);
 }
 
@@ -1995,6 +2253,8 @@ void MainWindow::countProtocol(){
     kNeuron++;
 }
 
+
+////TRABAJO RICARDO BRUZUAL////////
 void MainWindow::clearWord(){
     std::cout<<"MainWindow::clearWord"<<endl;
 
@@ -3212,6 +3472,387 @@ void MainWindow::generateDotWord(QString nameFile, QString wo){
         file<<"}\n";
         h = 0;
         break;
+    case 82:
+        file<<"subgraph cluster_82{ ";
+        file<<"\"item82U\" [label= \"id Neurona: "<<returnID("U")<<"\\nCategor&iacute;a: 'U'\"];\n";
+        file<<"\"item82N\" [label= \"id Neurona: "<<returnID("N")<<"\\nCategor&iacute;a: 'N'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'UN'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'UN'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 83:
+        file<<"subgraph cluster_83{ ";
+        file<<"\"item83UN\" [label= \"id Neurona: "<<returnID("UN")<<"\\nCategor&iacute;a: 'UN'\"];\n";
+        file<<"\"item83O\" [label= \"id Neurona: "<<returnID("O")<<"\\nCategor&iacute;a: 'O'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'UNO'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'UNO'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 84:
+        file<<"subgraph cluster_84{ ";
+        file<<"\"item84DO\" [label= \"id Neurona: "<<returnID("DO")<<"\\nCategor&iacute;a: 'DO'\"];\n";
+        file<<"\"item84S\" [label= \"id Neurona: "<<returnID("S")<<"\\nCategor&iacute;a: 'S'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'DOS'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'DOS'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 85:
+        file<<"subgraph cluster_85{ ";
+        file<<"\"item85T\" [label= \"id Neurona: "<<returnID("T")<<"\\nCategor&iacute;a: 'T'\"];\n";
+        file<<"\"item85R\" [label= \"id Neurona: "<<returnID("R")<<"\\nCategor&iacute;a: 'R'\"];\n";
+        file<<"\"item85E\" [label= \"id Neurona: "<<returnID("E")<<"\\nCategor&iacute;a: 'E'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'TRE'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'TRE'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 86:
+        file<<"subgraph cluster_86{ ";
+        file<<"\"item86TRE\" [label= \"id Neurona: "<<returnID("TRE")<<"\\nCategor&iacute;a: 'TRE'\"];\n";
+        file<<"\"item86S\" [label= \"id Neurona: "<<returnID("S")<<"\\nCategor&iacute;a: 'S'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'TRES'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'TRES'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 87:
+        file<<"subgraph cluster_87{ ";
+        file<<"\"item87T\" [label= \"id Neurona: "<<returnID("T")<<"\\nCategor&iacute;a: 'T'\"];\n";
+        file<<"\"item87R\" [label= \"id Neurona: "<<returnID("R")<<"\\nCategor&iacute;a: 'R'\"];\n";
+        file<<"\"item87O\" [label= \"id Neurona: "<<returnID("O")<<"\\nCategor&iacute;a: 'O'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'TRO'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'TRO'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 88:
+        file<<"subgraph cluster_88{ ";
+        file<<"\"item88CU\" [label= \"id Neurona: "<<returnID("CU")<<"\\nCategor&iacute;a: 'CU'\"];\n";
+        file<<"\"item88A\" [label= \"id Neurona: "<<returnID("A")<<"\\nCategor&iacute;a: 'A'\"];\n";
+        file<<"\"item88TRO\" [label= \"id Neurona: "<<returnID("TRO")<<"\\nCategor&iacute;a: 'TRO'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'CUATRO'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'CUATRO'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 89:
+        file<<"subgraph cluster_89{ ";
+        file<<"\"item89C\" [label= \"id Neurona: "<<returnID("C")<<"\\nCategor&iacute;a: 'C'\"];\n";
+        file<<"\"item89I\" [label= \"id Neurona: "<<returnID("I")<<"\\nCategor&iacute;a: 'I'\"];\n";
+        file<<"\"item89N\" [label= \"id Neurona: "<<returnID("N")<<"\\nCategor&iacute;a: 'N'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'CIN'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'CIN'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 90:
+        file<<"subgraph cluster_90{ ";
+        file<<"\"item90CIN\" [label= \"id Neurona: "<<returnID("CIN")<<"\\nCategor&iacute;a: 'CIN'\"];\n";
+        file<<"\"item90CO\" [label= \"id Neurona: "<<returnID("CO")<<"\\nCategor&iacute;a: 'CO'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'CIN'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'CO'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 91:
+        file<<"subgraph cluster_91{ ";
+        file<<"\"item91S\" [label= \"id Neurona: "<<returnID("S")<<"\\nCategor&iacute;a: 'S'\"];\n";
+        file<<"\"item91E\" [label= \"id Neurona: "<<returnID("E")<<"\\nCategor&iacute;a: 'E'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'SE'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'SE'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 92:
+        file<<"subgraph cluster_92{ ";
+        file<<"\"item92I\" [label= \"id Neurona: "<<returnID("I")<<"\\nCategor&iacute;a: 'I'\"];\n";
+        file<<"\"item92S\" [label= \"id Neurona: "<<returnID("S")<<"\\nCategor&iacute;a: 'S'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'IS'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'IS'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 93:
+        file<<"subgraph cluster_93{ ";
+        file<<"\"item93SE\" [label= \"id Neurona: "<<returnID("SE")<<"\\nCategor&iacute;a: 'SE'\"];\n";
+        file<<"\"item93IS\" [label= \"id Neurona: "<<returnID("IS")<<"\\nCategor&iacute;a: 'IS'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'SEIS'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'SEIS'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 94:
+        file<<"subgraph cluster_94{ ";
+        file<<"\"item94S\" [label= \"id Neurona: "<<returnID("S")<<"\\nCategor&iacute;a: 'S'\"];\n";
+        file<<"\"item94I\" [label= \"id Neurona: "<<returnID("I")<<"\\nCategor&iacute;a: 'I'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'SI'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'SI'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 95:
+        file<<"subgraph cluster_95{ ";
+        file<<"\"item95T\" [label= \"id Neurona: "<<returnID("T")<<"\\nCategor&iacute;a: 'T'\"];\n";
+        file<<"\"item95E\" [label= \"id Neurona: "<<returnID("E")<<"\\nCategor&iacute;a: 'E'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'TE'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'TE'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 96:
+        file<<"subgraph cluster_97{ ";
+        file<<"\"item97SI\" [label= \"id Neurona: "<<returnID("SI")<<"\\nCategor&iacute;a: 'SI'\"];\n";
+        file<<"\"item97E\" [label= \"id Neurona: "<<returnID("E")<<"\\nCategor&iacute;a: 'E'\"];\n";
+        file<<"\"item97TE\" [label= \"id Neurona: "<<returnID("TE")<<"\\nCategor&iacute;a: 'TE'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'SIETE'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'SIETE'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 97:
+        file<<"subgraph cluster_97{ ";
+        file<<"\"item97C\" [label= \"id Neurona: "<<returnID("C")<<"\\nCategor&iacute;a: 'C'\"];\n";
+        file<<"\"item97H\" [label= \"id Neurona: "<<returnID("H")<<"\\nCategor&iacute;a: 'H'\"];\n";
+        file<<"\"item970\" [label= \"id Neurona: "<<returnID("O")<<"\\nCategor&iacute;a: 'O'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'CHO'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'CHO'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 98:
+        file<<"subgraph cluster_98{ ";
+        file<<"\"item98O\" [label= \"id Neurona: "<<returnID("O")<<"\\nCategor&iacute;a: 'O'\"];\n";
+        file<<"\"item98CHO\" [label= \"id Neurona: "<<returnID("CHO")<<"\\nCategor&iacute;a: 'CHO'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'OCHO'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'OCHO'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 99:
+        file<<"subgraph cluster_99{ ";
+        file<<"\"item99N\" [label= \"id Neurona: "<<returnID("N")<<"\\nCategor&iacute;a: 'N'\"];\n";
+        file<<"\"item99U\" [label= \"id Neurona: "<<returnID("U")<<"\\nCategor&iacute;a: 'U'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'NU'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'NU'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 100:
+        file<<"subgraph cluster_100{ ";
+        file<<"\"item100V\" [label= \"id Neurona: "<<returnID("V")<<"\\nCategor&iacute;a: 'V'\"];\n";
+        file<<"\"item100E\" [label= \"id Neurona: "<<returnID("E")<<"\\nCategor&iacute;a: 'E'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'VE'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'VE'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 101:
+        file<<"subgraph cluster_101{ ";
+        file<<"\"item101NU\" [label= \"id Neurona: "<<returnID("NU")<<"\\nCategor&iacute;a: 'NU'\"];\n";
+        file<<"\"item101E\" [label= \"id Neurona: "<<returnID("E")<<"\\nCategor&iacute;a: 'E'\"];\n";
+        file<<"\"item101VE\" [label= \"id Neurona: "<<returnID("VE")<<"\\nCategor&iacute;a: 'VE'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'NUEVE'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'NUEVE'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 102:
+        file<<"subgraph cluster_102{ ";
+        file<<"\"item102R\" [label= \"id Neurona: "<<returnID("R")<<"\\nCategor&iacute;a: 'R'\"];\n";
+        file<<"\"item102O\" [label= \"id Neurona: "<<returnID("O")<<"\\nCategor&iacute;a: 'O'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'RO'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'RO'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
+    case 103:
+        file<<"subgraph cluster_103{ ";
+        file<<"\"item103CE\" [label= \"id Neurona: "<<returnID("CE")<<"\\nCategor&iacute;a: 'CE'\"];\n";
+        file<<"\"item103RO\" [label= \"id Neurona: "<<returnID("RO")<<"\\nCategor&iacute;a: 'RO'\"];\n";
+        for(int j=0; j<numNeuron; j++){
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j]-1)*9+CAT] != (unsigned int)returnCategory(word2) && neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[j])*9+CAT] != (unsigned int)returnCategory(word2) && h != 0 && h != 3){
+                h = 2;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[j]+0<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[j]+0<<"\\nCategor&iacute;a: 'CERO'\"];\n";
+            }
+            if(neuralSenses[SIGHT].vectorFlags[(neuralSenses[SIGHT].ptr[id]+j)*9+CAT] == (unsigned int)returnCategory(word2) && h != 2){
+                h = 3;
+                file<<"\"item"<<neuralSenses[SIGHT].ptr[id]+j<<"\" [label=  \"id Neurona: "<<neuralSenses[SIGHT].ptr[id]+j<<"\\nCategor&iacute;a: 'CERO'\"];\n";
+            }
+        }
+        file<<"}\n";
+        h = 0;
+        break;
     default:
         file<<"subgraph cluster_69{ ";
         if(returnID(word2) != 999)
@@ -3364,6 +4005,51 @@ int MainWindow::returnID(QString sy){
         return 80;
     if(sy == "COBRA")
         return 81;
+    ////ID de silabas agregadas por Johan Sosa/////
+    if(sy == "UN")
+        return 82;
+    if(sy == "UNO")
+        return 83;
+    if(sy == "DOS")
+        return 84;
+    if(sy == "TRE")
+        return 85;
+    if(sy == "TRES")
+        return 86;
+    if(sy == "TRO")
+        return 87;
+    if(sy == "CUATRO")
+        return 88;
+    if(sy == "CIN")
+        return 89;
+    if(sy == "CINCO")
+        return 90;
+    if(sy == "SE")
+        return 91;
+    if(sy == "IS")
+        return 92;
+    if(sy == "SEIS")
+        return 93;
+    if(sy == "SI")
+        return 94;
+    if(sy == "TE")
+        return 95;
+    if(sy == "SIETE")
+        return 96;
+    if(sy == "CHO")
+        return 97;
+    if(sy == "OCHO")
+        return 98;
+    if(sy == "NU")
+        return 99;
+    if(sy == "VE")
+        return 100;
+    if(sy == "NUEVE")
+        return 101;
+    if(sy == "RO")
+        return 102;
+    if(sy == "CERO")
+        return 103;
     return 999;
 }
 
@@ -3391,6 +4077,8 @@ void MainWindow::correctWord(){
 
 int hit = 0;
 
+
+//mudar esta funcion ////
 void MainWindow::paintBinaryNetSyllab(){
     std::cout<<"MainWindow::paintBinarySyllab"<<endl;
 
@@ -3647,6 +4335,8 @@ void MainWindow::learnBinaryCharacteristicPre(senses sense,int ptr, unsigned sho
     neuralSenses[sense].binaryCharacteristic[ptr*16+15] = val16;
 }
 
+
+////mudar esta funcion////
 void MainWindow::paintBinarySyllab(int ptr){
     std::cout<<"MainWindow::paintBinarySyllab"<<endl;
 
@@ -3736,12 +4426,12 @@ void MainWindow::paintCount(int times){
    }
    if(times == 2){
        QImage image1("icons/house.png");
-       QImage image2("icons/house.png");
-       QImage result(image1.width() + image2.width(), image1.height(), QImage::Format_RGB32);
+      // QImage image2("icons/house.png");
+       QImage result(image1.width()*2, image1.height(), QImage::Format_RGB32);
        QPainter painter(this);
        painter.begin(&result);
        painter.drawImage(0,0,image1);
-       painter.drawImage(img_width,0,image2);
+       painter.drawImage(img_width,0,image1);
        painter.end();
        ViewFinder &view = ViewFinder::getInstance(this);
        view.think(result);
@@ -3852,4 +4542,3 @@ void MainWindow::paintCount(int times){
        view.think(result);
    }
 }
-

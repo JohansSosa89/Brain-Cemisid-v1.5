@@ -393,7 +393,70 @@ QString FormTeaching::caracterCla(int category){
         return("COBRA");
         break;
     case 55:
+        return("UN");
+        break;
+    case 56:
         return("UNO");
+        break;
+    case 57:
+        return("DOS");
+        break;
+    case 58:
+        return("TRE");
+        break;
+    case 59:
+        return("TRES");
+        break;
+    case 60:
+        return("TRO");
+        break;
+    case 62:
+        return("CUATRO");
+        break;
+    case 63:
+        return("CIN");
+        break;
+    case 64:
+        return("CINCO");
+        break;
+    case 91:
+        return("SE");
+        break;
+    case 92:
+        return("IS");
+        break;
+    case 93:
+        return("SEIS");
+        break;
+    case 94:
+        return("SI");
+        break;
+    case 95:
+        return("TE");
+        break;
+    case 96:
+        return("SIETE");
+        break;
+    case 97:
+        return("CHO");
+        break;
+    case 98:
+        return("OCHO");
+        break;
+    case 99:
+        return("NU");
+        break;
+    case 100:
+        return("VE");
+        break;
+    case 101:
+        return("NUEVE");
+        break;
+    case 102:
+        return("RO");
+        break;
+    case 103:
+        return("CERO");
         break;
     default:
         return("e");
@@ -406,14 +469,4 @@ senses FormTeaching::getSenseTeaching() const{
 
 void FormTeaching::setSenseTeaching(const senses &value){
     senseTeaching = value;
-}
-
-void FormTeaching::on_pushButtonBadAnswer_clicked()
-{
-
-}
-
-void FormTeaching::on_pushButtonTeach_clicked()
-{
-
 }

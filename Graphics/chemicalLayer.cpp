@@ -192,7 +192,7 @@ QList<QList<bool> >& ChemicalLayer::state(){
 }
 
 void ChemicalLayer::setState(int x,int y,bool s){
-    std::cout<<"ChemicalLayer::setState"<<std::endl;
+   // std::cout<<"ChemicalLayer::setState"<<std::endl;
 
     if (s)
         m_grid[x][y]->setBrush(QBrush(m_activeColor,Qt::SolidPattern));

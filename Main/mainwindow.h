@@ -32,6 +32,7 @@
 #include"Class/sumQueue.h"
 #include"Class/sumNetwork.h"
 #include"Graphics/showthinkingwrited.h"
+#include"Graphics/panelthinking.h"
 
 namespace Ui{
 class MainWindow;
@@ -107,6 +108,8 @@ public slots :
     void generateDotWord(QString nameFile, QString wo);
     int returnID(QString sy);
     void correctWord();
+    //johan sosa//
+    void showPanelThinking(senses sense, int ptr, int categoryNeuron);
 
 private slots:
     void on_pushButtonBip_clicked();
@@ -120,6 +123,8 @@ private slots:
 
     void on_actionInstrucciones_triggered();
 
+    void on_pushButtonImage_clicked();
+
 private:
     Ui::MainWindow *ui;
     QImage *image;
@@ -132,6 +137,7 @@ private:
     DialogTableBNS *dialogTable;
     DialogTableWord *dialogTableWord;
     DialogInstructions *dialogInstructions;
+    panelthinking *panelThinking;
     NeuralNetwork *neuralSenses;
     Statistic *statistics;
     stateNeuralNetwork *stateSenses;
@@ -218,5 +224,7 @@ private:
     void paintCount(int times);
     char caracterCla(int category);
     void addition(struct queue &up, struct queue &down);
+    //TRABAJO JOHAN SOSA//
+
 };
 #endif // MAINWINDOW_H

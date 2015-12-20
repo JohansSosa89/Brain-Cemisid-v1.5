@@ -5,7 +5,8 @@ subgraph cluster_1{ "item132" [label=  "id Neurona: 132\nCategor&iacute;a: '1'"]
 }
 subgraph cluster_2{ }
 subgraph cluster_3{ }
-subgraph cluster_4{ }
+subgraph cluster_4{ "item134" [label=  "id Neurona: 134\nCategor&iacute;a: '4'"];
+}
 subgraph cluster_5{ }
 subgraph cluster_6{ }
 subgraph cluster_7{ }
@@ -83,5 +84,27 @@ subgraph cluster_78{ }
 subgraph cluster_79{ }
 subgraph cluster_80{ }
 subgraph cluster_81{ }
+subgraph cluster_82{ }
+subgraph cluster_83{ }
+subgraph cluster_84{ }
+subgraph cluster_85{ }
+subgraph cluster_86{ }
+subgraph cluster_87{ }
+subgraph cluster_88{ }
+subgraph cluster_89{ }
+subgraph cluster_90{ }
+subgraph cluster_91{ }
+subgraph cluster_92{ }
+subgraph cluster_93{ }
+subgraph cluster_94{ }
+subgraph cluster_95{ }
+subgraph cluster_96{ }
+subgraph cluster_97{ }
+subgraph cluster_98{ }
+subgraph cluster_99{ }
+subgraph cluster_100{ }
+subgraph cluster_101{ }
+subgraph cluster_102{ }
+subgraph cluster_103{ }
 
 }

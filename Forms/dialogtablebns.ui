@@ -26,7 +26,7 @@
    <string>Tabulacion De BNS</string>
   </property>
   <property name="windowIcon">
-   <iconset>
+   <iconset resource="../imageResource.qrc">
     <normaloff>:/icons/tableNeuron.png</normaloff>:/icons/tableNeuron.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout_4">
@@ -412,6 +412,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../imageResource.qrc"/>
+ </resources>
  <connections/>
 </ui>

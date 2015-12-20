@@ -116,15 +116,18 @@ void DialogTableWord::paintBinaryCharacteristic(senses sense, int ptr){
 }
 
 int DialogTableWord::returnCategory(QString cad){
-    std::cout<<"DialogTableWord::returnCategory"<<std::endl;
+   // std::cout<<"DialogTableWord::returnCategory"<<std::endl;
 
     if(cad != "=" && cad != "+" && cad != "A" && cad != "B" && cad != "C" && cad != "D" && cad != "E" && cad != "F" && cad != "G" && cad != "H" && cad != "I" && cad != "J" && cad != "K"
-             && cad != "L" && cad != "M" && cad != "N" && cad != "O" && cad != "P" && cad != "Q" && cad != "R" && cad != "S" && cad != "T" && cad != "U" && cad != "V" && cad != "W" && cad != "X"
-             && cad != "Y" && cad != "Z" && cad != "AB" && cad != "BA" && cad != "CA" && cad != "LLO" && cad != "CABALLO" && cad != "SA" && cad != "CASA" && cad != "PO" && cad != "SAPO" && cad != "GA" && cad != "TO" && cad != "GATO" && cad != "PA"
+            && cad != "L" && cad != "M" && cad != "N" && cad != "O" && cad != "P" && cad != "Q" && cad != "R" && cad != "S" && cad != "T" && cad != "U" && cad != "V" && cad != "W" && cad != "X"
+            && cad != "Y" && cad != "Z" && cad != "AB" && cad != "BA" && cad != "CA" && cad != "LLO" && cad != "CABALLO" && cad != "SA" && cad != "CASA" && cad != "PO" && cad != "SAPO" && cad != "GA" && cad != "TO" && cad != "GATO" && cad != "PA"
             && cad != "PATO" && cad != "RRO" && cad != "CARRO" && cad != "GALLO" && cad != "CO" && cad != "BRA" && cad != "COBRA" && cad != "CU" && cad != "LE" && cad != "CULEBRA" && cad != "ON" && cad != "LEON" && cad != "VE"
             && cad != "NA" && cad != "DO" && cad != "VENADO" && cad != "VION" && cad != "AVION" && cad != "COCO" && cad != "DA" && cad != "RA" && cad != "CE" && cad != "TA" && cad != "DIS" && cad != "JO" && cad != "AR"
-            && cad != "BOL" && cad != "GO" && cad != "RRA" && cad != "DRI" && cad != "LO")
+            && cad != "BOL" && cad != "GO" && cad != "RRA" && cad != "DRI" && cad != "LO" /*&& cad != "UN" && cad != "UNO" && cad != "DOS" && cad != "TRE" && cad != "TRES" && cad != "TRO" && cad != "CUATRO" && cad != "CIN"
+            && cad != "CINCO" && cad != "SE" && cad != "IS" && cad != "SEIS" && cad != "SI" && cad != "TE" && cad != "SIETE" && cad != "CHO" && cad != "OCHO" && cad != "NU" && cad != "VE" && cad != "NUEVE" && cad != "RO" && cad != "CERO"*/)
         return cad.toInt();
+    std::cout<<cad.toInt()<<std::endl;
+
     if (cad == "=")
         return '=';
     if(cad == "+")
@@ -210,7 +213,7 @@ int DialogTableWord::returnCategory(QString cad){
     if(cad == "DIS")
         return 23;
     if(cad == "RRO")
-        return 39;
+        return 24;
     if(cad == "JO")
         return 25;
     if(cad == "AR")
@@ -240,7 +243,7 @@ int DialogTableWord::returnCategory(QString cad){
     if(cad == "RRA")
         return 38;
     if(cad == "VION")
-        return 24;
+        return 39;
     if(cad == "DRI")
         return 40;
     if(cad == "COCO")
@@ -269,5 +272,49 @@ int DialogTableWord::returnCategory(QString cad){
         return 53;
     if(cad == "COBRA")
         return 54;
-    exit(1);
+    ////revisar estas categorias///
+    if(cad == "UN")
+        return 55;
+    if(cad == "UNO")
+        return 56;
+    if(cad == "DOS")
+        return 57;
+    if(cad == "TRE")
+        return 58;
+    if(cad == "TRES")
+        return 59;
+    if(cad == "TRO")
+        return 60;
+    if(cad == "CUATRO")
+        return 62;
+    if(cad == "CIN")
+        return 63;
+    if(cad == "CINCO")
+        return 64;
+    if(cad == "SE")
+        return 91;
+    if(cad == "IS")
+        return 92;
+    if(cad == "SEIS")
+        return 93;
+    if(cad == "SI")
+        return 94;
+    if(cad == "TE")
+        return 95;
+    if(cad == "SIETE")
+        return 96;
+    if(cad == "CHO")
+        return 97;
+    if(cad == "OCHO")
+        return 98;
+    if(cad == "NU")
+        return 99;
+    if(cad == "VE")
+        return 100;
+    if(cad == "NUEVE")
+        return 101;
+    if(cad == "RO")
+        return 102;
+    if(cad == "CERO")
+        return 103;
 }
