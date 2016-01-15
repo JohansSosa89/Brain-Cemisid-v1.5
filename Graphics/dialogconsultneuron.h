@@ -28,7 +28,7 @@ public:
     unsigned char *ptrNeuron;
 
 private slots:
-    void on_buttonBox_clicked(QAbstractButton *button);
+   /* void on_buttonBox_clicked(QAbstractButton *button);*/
 
 private:
     Ui::DialogConsultNeuron *ui;

@@ -33,6 +33,7 @@
 #include"Class/sumNetwork.h"
 #include"Graphics/showthinkingwrited.h"
 #include"Graphics/panelthinking.h"
+#include"Class/FreeMemory.h"
 
 namespace Ui{
 class MainWindow;
@@ -110,12 +111,13 @@ public slots :
     void correctWord();
     //johan sosa//
     void showPanelThinking(senses sense, int ptr, int categoryNeuron);
+    int getNumberNeurons();
 
 private slots:
     void on_pushButtonBip_clicked();
     void on_checkBox_cuento_clicked();
 
-    void on_pushButtonBipWord_clicked();
+    /*void on_pushButtonBipWord_clicked();
 
     void on_pushButtonBipSyl_clicked();
 
@@ -123,7 +125,7 @@ private slots:
 
     void on_actionInstrucciones_triggered();
 
-    void on_pushButtonImage_clicked();
+    void on_pushButtonImage_clicked();*/
 
 private:
     Ui::MainWindow *ui;
@@ -150,6 +152,7 @@ private:
     cudaDeviceProp deviceProp;
     RelationNetwork *relationSenses;
     CulturalNet *addNet;
+    FreeMemory *freeMemory;
     bool *isInactivateSense;
     int numSenses;
     unsigned char selectedDevice;
@@ -170,14 +173,16 @@ private:
     struct queue adding_up;
     struct queue adding_down;
     struct queue result;
+    int vectorCategory;
+    int vectorId;
     void initGui();
     void activateInterface(bool state);
     void setNull();
-    void freeVectorsCharacteristic();
+   /* void freeVectorsCharacteristic();
     void freeFormTeaching();
     void freeStates();
     void freeSenses();
-    void freeInterface();
+    void freeInterface();*/
     void freeUi();
     void freeMem();
     void generateVectorsCharacteristic();
@@ -213,8 +218,8 @@ private:
 //    void think(senses senses);
     void initializeCuturalNet(int);
     void freeCulturalNet();
-    template<class T>
-    void freeGenericPtr(T *ptr);
+    /*template<class T>
+    void freeGenericPtr(T *ptr);*/
     void printAllVectorSenses();
     void printVectorSenses(senses sense);
     void printIdsNeuronHit(senses sense);

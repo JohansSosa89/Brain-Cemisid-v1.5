@@ -37,11 +37,11 @@ public slots:
     void badAnswer();
 
 private slots:
-    void on_pushButtonGoodAnswer_clicked();
+    /*void on_pushButtonGoodAnswer_clicked();
 
     void on_pushButtonBadAnswer_clicked();
 
-    void on_pushButtonTeach_clicked();
+    void on_pushButtonTeach_clicked();*/
 
 private:
     Ui::FormTeaching *ui;

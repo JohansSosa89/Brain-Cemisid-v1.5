@@ -1,10 +1,2 @@
 graph net_neuron{
 rankdir=LR;
-subgraph cluster_77{ "item77CU" [label= "id Neurona: 58\nCategor&iacute;a: 'CU'"];
-"item77LE" [label= "id Neurona: 59\nCategor&iacute;a: 'LE'"];
-"item77BRA" [label= "id Neurona: 56\nCategor&iacute;a: 'BRA'"];
-"item80" [label=  "id Neurona: 80\nCategor&iacute;a: 'CULEBRA'"];
-"item153" [label=  "id Neurona: 153\nCategor&iacute;a: 'CULEBRA'"];
-"item154" [label=  "id Neurona: 154\nCategor&iacute;a: 'CULEBRA'"];
-}
-}

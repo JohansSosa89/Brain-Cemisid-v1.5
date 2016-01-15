@@ -22,6 +22,8 @@ public:
     void setSenses(senses setsense);
     void setPtr(int setptr);
     void setCategory(int setCategory);
+    template<class T>
+    void freeGenericPtr(T *puntero);
     senses getSenses();
     int getPtr();
     int getCategory();

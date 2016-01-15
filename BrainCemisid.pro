@@ -26,7 +26,8 @@ SOURCES += Main/main.cpp\
     Class/sum_queue.cpp \
     Graphics/dialoginstructions.cpp \
     Graphics/showthinkingwrited.cpp \
-    Graphics/panelthinking.cpp
+    Graphics/panelthinking.cpp \
+    Class/FreeMemory.cpp
 
 HEADERS += Main/mainwindow.h \
     Graphics/chemicalLayer.h \
@@ -54,7 +55,8 @@ HEADERS += Main/mainwindow.h \
     Forms/showthinkingwrited.h \
     Graphics/formteaching.h \
     Graphics/showthinkingwrited.h \
-    Graphics/panelthinking.h
+    Graphics/panelthinking.h \
+    Class/FreeMemory.h
 
 FORMS += Forms/mainwindow.ui \
     Forms/formteaching.ui \

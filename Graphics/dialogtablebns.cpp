@@ -87,7 +87,7 @@ void DialogTableBNS::reciveRowSight(QModelIndex index){
     std::cout<<"DialogTableBNS::reciveRowSight"<<std::endl;
 
     if(index.column() == CENTER)
-        paintBinaryCharacteristic(SIGHT,ui->tableWidgetSight->item(index.row(),ID)->text().toInt());    
+        paintBinaryCharacteristic(SIGHT,ui->tableWidgetSight->item(index.row(),ID)->text().toInt());
 }
 
 void DialogTableBNS::reciveRowHearing(QModelIndex index){

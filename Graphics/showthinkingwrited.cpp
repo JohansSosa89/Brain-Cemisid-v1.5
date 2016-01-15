@@ -106,8 +106,23 @@ void showThinkingwrited::convertNumbertoWord(int category){
     case 54:
         ui->lblshowword->setText("COBRA");
         break;
+    case 56:
+        ui->lblshowword->setText("UNO");
+        break;
+    case 57:
+        ui->lblshowword->setText("DOS");
+        break;
+    case 59:
+        ui->lblshowword->setText("TRES");
+        break;
     case 61:
         ui->lblshowword->setText("=");
+        break;
+    case 62:
+        ui->lblshowword->setText("CUATRO");
+        break;
+    case 64:
+        ui->lblshowword->setText("CINCO");
         break;
     case 65:
         ui->lblshowword->setText("A");
@@ -186,6 +201,21 @@ void showThinkingwrited::convertNumbertoWord(int category){
         break;
     case 90:
         ui->lblshowword->setText("Z");
+        break;
+    case 93:
+        ui->lblshowword->setText("SEIS");
+        break;
+    case 96:
+        ui->lblshowword->setText("SIETE");
+        break;
+    case 98:
+        ui->lblshowword->setText("OCHO");
+        break;
+    case 101:
+        ui->lblshowword->setText("NUEVE");
+        break;
+    case 103:
+        ui->lblshowword->setText("CERO");
         break;
     default:
         ui->lblshowword->setText("???");

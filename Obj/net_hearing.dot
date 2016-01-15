@@ -26,7 +26,8 @@ subgraph cluster_22{ }
 subgraph cluster_23{ }
 subgraph cluster_24{ }
 subgraph cluster_25{ }
-subgraph cluster_26{ }
+subgraph cluster_26{ "item26" [label=  "id Neurona: 26\nCategor&iacute;a: 'O'"];
+}
 subgraph cluster_27{ }
 subgraph cluster_28{ }
 subgraph cluster_29{ }
@@ -43,8 +44,7 @@ subgraph cluster_39{ }
 subgraph cluster_40{ }
 subgraph cluster_41{ }
 subgraph cluster_42{ }
-subgraph cluster_43{ "item43" [label=  "id Neurona: 43\nCategor&iacute;a: 'SA'"];
-}
+subgraph cluster_43{ }
 subgraph cluster_44{ }
 subgraph cluster_45{ }
 subgraph cluster_46{ }
@@ -53,7 +53,8 @@ subgraph cluster_48{ }
 subgraph cluster_49{ }
 subgraph cluster_50{ }
 subgraph cluster_51{ }
-subgraph cluster_52{ }
+subgraph cluster_52{ "item52" [label=  "id Neurona: 52\nCategor&iacute;a: 'RRO'"];
+}
 subgraph cluster_53{ }
 subgraph cluster_54{ }
 subgraph cluster_55{ }
@@ -105,5 +106,6 @@ subgraph cluster_100{ }
 subgraph cluster_101{ }
 subgraph cluster_102{ }
 subgraph cluster_103{ }
+subgraph cluster_104{ }
 
 }

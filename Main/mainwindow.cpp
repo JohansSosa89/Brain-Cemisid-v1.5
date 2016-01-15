@@ -41,13 +41,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         showWarning("Fallo de memoria",
                     "Su sistema no posee memoria RAM suficiente para ejecutar aplicacion ERROR: "
                     +text);
+
         freeUi();
         freeMem();
+
         exit(EXIT_SUCCESS);
     }
 }
 
 MainWindow::~MainWindow(){
+
     freeUi();
     freeMem();
 }
@@ -70,9 +73,7 @@ void MainWindow::showSelectDevice(bool isVisibleButton){
     dialogSelectHardware = NULL;
 }
 
-void MainWindow::freeVectorsCharacteristic(){
-
-    std::cout<<"MainWindow::freeVectorsCharacteristic"<<endl;
+/*void MainWindow::freeVectorsCharacteristic(){
 
     freeGenericPtr(characteristicVectorEar);
     freeGenericPtr(characteristicVectorEye);
@@ -108,36 +109,33 @@ void MainWindow::freeInterface(){
         interface[SIGHT].freeMem(true);
         delete interface;
     }
-}
+}*/
 
 void MainWindow::freeUi(){
     delete ui;
     delete chemicalLayerEar;
     delete chemicalLayerEye;
-    freeGenericPtr(image);
-    freeGenericPtr(dialogConsult);
-    freeGenericPtr(dialogStatistics);
-    freeGenericPtr(dialogTable);
-    freeGenericPtr(dialogTableWord);
-    freeGenericPtr(dialogSelectHardware);
+    freeMemory->freeGenericPtr(image);
+    freeMemory->freeGenericPtr(dialogConsult);
+    freeMemory->freeGenericPtr(dialogStatistics);
+    freeMemory->freeGenericPtr(dialogTable);
+    freeMemory->freeGenericPtr(dialogTableWord);
+    freeMemory->freeGenericPtr(dialogSelectHardware);
 }
 
 void MainWindow::freeMem(){
-    freeFormTeaching();
-    freeStates();
-    freeVectorsCharacteristic();
-    freeSenses();
-    freeInterface();
-    freeGenericPtr(statistics);
+    freeMemory->freeFormTeaching(formsTeaching, numSenses ,isInactivateSense);
+    freeMemory->freeStates(stateSenses);
+    freeMemory->freeVectorsCharacteristic(characteristicVectorEar, characteristicVectorEye);
+    freeMemory->freeSenses(neuralSenses, numSenses);
+    freeMemory->freeInterface(interface);
+    freeMemory->freeGenericPtr(statistics);
 }
 
 void MainWindow::generateVectorsCharacteristic(){
-    std::cout<<"MainWindow::GenerateVectorCharacteristic"<<endl;
 
     characteristicVectorEar = chemicalLayerEar->generateCharacteristic();
     characteristicVectorEye = chemicalLayerEye->generateCharacteristic();
-    //std::cout << std::string(characteristicVectorEar);
-
 }
 
 void MainWindow::on_checkBox_cuento_clicked(){
@@ -232,6 +230,8 @@ void MainWindow::addition(struct queue &up, struct queue &down){
     std::cout<<"valor de l_result: "<<l_result<<std::endl;
     for(j=l_result; j>=0; j--){
         reverse = reverse + text[j];
+        std::cout<<"valor del reverse: "<<reverse.toInt()<<std::endl;
+        paintBinaryCharacteristic(SIGHT,reverse.toInt());
         sumNetwork->vectorNetworkSum[j] = 1;
     }
     ui->textBrowser->setText("RESULTADO DE LA SUMA: \n"+reverse);
@@ -277,7 +277,7 @@ void MainWindow::processGrid(){
                     if(kNeuron>orderNeuron){
                         orderNeuron = kNeuron;
                     }
-                    std::cout<<"CLACK"<<endl;
+                    std::cout<<"CLACK SIGHT"<<endl;
                 }
             }else{
                 countNetwork->vectorNetworkCount[kNeuron] = 1;
@@ -289,7 +289,7 @@ void MainWindow::processGrid(){
                     orderNeuron = kNeuron;
                 }
                 kNeuron = 1;
-                std::cout<<"CLACK2"<<endl;
+                std::cout<<"CLACK HEARING"<<endl;
             }
         }catch (string text){
             QMessageBox::critical(this,"CUDA ERROR",QString(text.c_str()).append("\n Se cerrara Aplicación"));
@@ -298,13 +298,23 @@ void MainWindow::processGrid(){
         //hace el llamado al formteaching de la vista
         //pasa como parametro la categoria y el estado de la neurona(HIT, DIFF, NO_HIT)
 
-        if(stateSenses[SIGHT]== IS_HIT){
-            cout<<"neurona hizo hit"<<endl;
-            showPanelThinking(SIGHT, interface[SIGHT].id[0], interface[SIGHT].arrayCategory[0]);
-            chemicalLayerEye->clear();
+        if(!ui->checkBox_Teach->isChecked()){
+            if(stateSenses[SIGHT]== IS_HIT){
+                cout<<"neurona hizo hit"<<endl;
+                showPanelThinking(SIGHT, interface[SIGHT].id[0], interface[SIGHT].arrayCategory[0]);
+                /*chemicalLayerEye->clear();
+                clearTables();
+                setFormsCheck();*/
+                activeLayers(true);
+            }
+            else{
+                cout<<"neurona hizo diff o no_hit"<<endl;
+                formsTeaching[SIGHT]->setState(stateSenses[SIGHT], interface[SIGHT].arrayCategory[0]);
+            }
+
         }
         else{
-            cout<<"neurona hizo diff o no hit"<<endl;
+            cout<<"neurona hizo diff o no_hit"<<endl;
             formsTeaching[SIGHT]->setState(stateSenses[SIGHT], interface[SIGHT].arrayCategory[0]);
         }
 
@@ -413,9 +423,10 @@ void MainWindow::processGrid(){
         }
         //hace el llamado al formteaching del oido
         //pasa como parametro la categoria y el estado de la neurona(HIT, DIFF, NO_HIT)
-        //formsTeaching[HEARING]->setState(stateSenses[HEARING], interface[HEARING].arrayCategory[0]);
+        if(ui->checkBox_Teach->isChecked())
+            formsTeaching[HEARING]->setState(stateSenses[HEARING], interface[HEARING].arrayCategory[0]);
 
-        if(stateSenses[HEARING]== IS_HIT && (ui->checkBox_leer->isChecked() || ui->checkBox_syl->isChecked())){
+        if(stateSenses[HEARING]== IS_HIT && (ui->checkBox_leer->isChecked() || ui->checkBox_syl->isChecked()) && !ui->checkBox_Teach->isChecked()){
             cout<<"neurona hizo hit"<<endl;
             showPanelThinking(HEARING, returnID(word2), returnCategory(word2));
             chemicalLayerEye->clear();
@@ -691,7 +702,7 @@ void MainWindow::paintBinaryCharacteristic(senses sense, int ptr){
 
     unsigned short displacement = 8 * sizeof (unsigned short) -1;
     unsigned short mask = 1 << displacement;
-    freeGenericPtr(image);
+    freeMemory->freeGenericPtr(image);
     image = new QImage(QSize(500,500), QImage::Format_MonoLSB);
     image->fill(Qt::color1);
     QPainter paint;
@@ -765,7 +776,7 @@ void MainWindow::showDialogConsult(){
         paintBinaryCharacteristic(dialogConsult->radioButtonActive(),dialogConsult->returnIdNeuron());
         this->setVisible(true);
     }
-    freeGenericPtr(dialogConsult);
+    freeMemory->freeGenericPtr(dialogConsult);
     dialogConsult = NULL;
 }
 
@@ -779,7 +790,7 @@ void MainWindow::showDialogStatistic(){
     this->setVisible(false);
     if(dialogStatistics->exec() == QDialog::Rejected)
         this->setVisible(true);
-    freeGenericPtr(dialogStatistics);
+    freeMemory->freeGenericPtr(dialogStatistics);
     dialogStatistics = NULL;
 }
 
@@ -792,7 +803,7 @@ void MainWindow::showDialogTableNeuron(){
     this->setVisible(false);
     if(dialogTable->exec() == QDialog::Rejected)
         this->setVisible(true);
-    freeGenericPtr(dialogTable);
+    freeMemory->freeGenericPtr(dialogTable);
     dialogTable = NULL;
 }
 
@@ -805,7 +816,7 @@ void MainWindow::showDialogInstructions(){
     this->setVisible(false);
     if(dialogInstructions->exec() == QDialog::Rejected)
         this->setVisible(true);
-    freeGenericPtr(dialogInstructions);
+    freeMemory->freeGenericPtr(dialogInstructions);
     dialogInstructions = NULL;
 }
 
@@ -819,7 +830,7 @@ void MainWindow::showPanelThinking(senses sense, int ptr, int categoryNeuron){
     if(panelThinking->exec() == QDialog::Rejected)
         this->setVisible(true);
 
-    freeGenericPtr(panelThinking);
+    freeMemory->freeGenericPtr(panelThinking);
     panelThinking = NULL;
 }
 
@@ -969,7 +980,7 @@ void MainWindow::generateDot(QString nameFile, senses sense, bool onlyHits){
     centinel= (onlyHits) ?*(interface[sense].hits) : *(neuralSenses[sense].ptr);
     file<<"graph net_neuron{\n";
     file<<"rankdir=LR;\n";
-    for(int j=0; j <= 103;j++){
+    for(int j=0; j <= 104;j++){
         file<<"subgraph cluster_"<<j<<"{ ";
         for(int i = 0; i < centinel ; i++){
             id=(onlyHits) ? interface[sense].id[i] : i;
@@ -1056,7 +1067,7 @@ void MainWindow::generateDot(QString nameFile, senses sense, bool onlyHits){
                 if(j==49 && category==21)
                     file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'TA'\"];\n";
                 if(j==50 && category==22)
-                    file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'PA'\"];\n";
+                    file<<"\"item"<<id<<"\" [label=  \"id NCheckBoxeurona: "<<id<<"\\nCategor&iacute;a: 'PA'\"];\n";
                 if(j==51 && category==23)
                     file<<"\"item"<<id<<"\" [label=  \"id Neurona: "<<id<<"\\nCategor&iacute;a: 'DIS'\"];\n";
                 if(j==52 && category==24)
@@ -1440,6 +1451,7 @@ void MainWindow::learn(senses sense){
         }
     case DIFF:
         try{
+        std::cout<<"categoria numero: "<<formsTeaching[sense]->getLineEditInput()->text().toInt()<<std::cout;
         correct(&neuralSenses[sense],formsTeaching[sense]->getLineEditInput()->text().toInt(),deviceProp.maxThreadsPerBlock,statistics);
         stateSenses[sense] = recognize(&neuralSenses[sense],sizeNet,characteristicVectorEar,&interface[sense],statistics);
         break;
@@ -1456,7 +1468,6 @@ void MainWindow::learn(senses sense){
 }
 
 void MainWindow::realLearn(senses sense){
-    std::cout<<"MainWindow::realLearn"<<endl;
 
     unsigned char ptr =(*(neuralSenses[sense].ptr))++;
     if(ptr > sizeNet.numNeuron){
@@ -1469,17 +1480,17 @@ void MainWindow::realLearn(senses sense){
 }
 
 int MainWindow::returnCategory(QString cad){
-    //std::cout<<"MainWindow::returnCategory"<<endl;
+  std::cout<<cad.toStdString()<<std::endl;
 
     if(cad != "=" && cad != "+" && cad != "A" && cad != "B" && cad != "C" && cad != "D" && cad != "E" && cad != "F" && cad != "G" && cad != "H" && cad != "I" && cad != "J" && cad != "K"
             && cad != "L" && cad != "M" && cad != "N" && cad != "O" && cad != "P" && cad != "Q" && cad != "R" && cad != "S" && cad != "T" && cad != "U" && cad != "V" && cad != "W" && cad != "X"
             && cad != "Y" && cad != "Z" && cad != "AB" && cad != "BA" && cad != "CA" && cad != "LLO" && cad != "CABALLO" && cad != "SA" && cad != "CASA" && cad != "PO" && cad != "SAPO" && cad != "GA" && cad != "TO" && cad != "GATO" && cad != "PA"
             && cad != "PATO" && cad != "RRO" && cad != "CARRO" && cad != "GALLO" && cad != "CO" && cad != "BRA" && cad != "COBRA" && cad != "CU" && cad != "LE" && cad != "CULEBRA" && cad != "ON" && cad != "LEON" && cad != "VE"
             && cad != "NA" && cad != "DO" && cad != "VENADO" && cad != "VION" && cad != "AVION" && cad != "COCO" && cad != "DA" && cad != "RA" && cad != "CE" && cad != "TA" && cad != "DIS" && cad != "JO" && cad != "AR"
-            && cad != "BOL" && cad != "GO" && cad != "RRA" && cad != "DRI" && cad != "LO" /*&& cad != "UN" && cad != "UNO" && cad != "DOS" && cad != "TRE" && cad != "TRES" && cad != "TRO" && cad != "CUATRO" && cad != "CIN"
-            && cad != "CINCO" && cad != "SE" && cad != "IS" && cad != "SEIS" && cad != "SI" && cad != "TE" && cad != "SIETE" && cad != "CHO" && cad != "OCHO" && cad != "NU" && cad != "VE" && cad != "NUEVE" && cad != "RO" && cad != "CERO"*/)
+            && cad != "BOL" && cad != "GO" && cad != "RRA" && cad != "DRI" && cad != "LO" && cad != "UN" && cad != "UNO" && cad != "DOS" && cad != "TRE" && cad != "TRES" && cad != "TRO" && cad != "CUATRO" && cad != "CIN"
+            && cad != "CINCO" && cad != "SE" && cad != "IS" && cad != "SEIS" && cad != "SI" && cad != "TE" && cad != "SIETE" && cad != "CHO" && cad != "OCHO" && cad != "NU" && cad != "VE" && cad != "NUEVE" && cad != "RO" && cad != "CERO")
         return cad.toInt();
-    std::cout<<cad.toInt()<<std::endl;
+    std::cout<<"CATEGORYA NRO"<<cad.toInt()<<std::endl;
 
     if (cad == "=")
         return '=';
@@ -1893,7 +1904,7 @@ void MainWindow::createStringForTable(){
 void MainWindow::earTraining(){
     std::cout<<"MainWindow::earTraining"<<endl;
 
-    senseTraining("ear_category.o","ear_wave.o","./Obj/",82,HEARING);
+    senseTraining("ear_category.o","ear_wave.o","./Obj/",104,HEARING);
 }
 
 void MainWindow::senseTraining(QString nameFileCategories, QString nameFileWaves,QString path,int numPatterns,senses sense){
@@ -2080,16 +2091,13 @@ void MainWindow::printCategory(senses sense){
         printf("Categor&iacute;as %d \n",interface[sense].arrayCategory[s]);
 }
 
-template <class T>
+/*template <class T>
 void MainWindow::freeGenericPtr(T *ptr){
-    std::cout<<"MainWindow::freeGenericPtr"<<endl;
-
     if(ptr!= NULL)
         delete ptr;
-}
+}*/
 
 bool MainWindow::analyticsNeuron(){
-    std::cout<<"MainWindow::analyticsNeuron"<<endl;
 
     if(interface[HEARING].hits==0 || interface[SIGHT].hits==0){
         if(interface[HEARING].hits==0)
@@ -2107,7 +2115,6 @@ bool MainWindow::analyticsNeuron(){
 }
 
 bool MainWindow::ambiguity(unsigned char sightCat){
-    std::cout<<"MainWindow::ambiguity"<<endl;
 
     for(int i=0; i<*interface[SIGHT].hits; i++){                          //  Si hay distintas Categor&iacute;as en el
         if(interface[SIGHT].arrayCategory[i] != sightCat)            //  vector de Categor&iacute;as de la vista entonces
@@ -2124,7 +2131,7 @@ void MainWindow::initializeCuturalNet(int numNeuron){                   //ESFERA
     addNet->valve = new unsigned char[numNeuron];
 }
 
-void MainWindow::freeCulturalNet(){
+/*void MainWindow::freeCulturalNet(){
     std::cout<<"MainWindow::freeCulturalNet"<<endl;
 
     if(addNet != NULL){
@@ -2133,7 +2140,7 @@ void MainWindow::freeCulturalNet(){
         freeGenericPtr(addNet->valve);
         delete addNet;
     }
-}
+}*/
 
 void MainWindow::buildRelation(unsigned char){
     std::cout<<"MainWindow::buildRelation"<<endl;
@@ -2482,7 +2489,8 @@ void MainWindow::paintBinaryWord(int ptr1, int ptr2, int ptr3, int ptr4, int ptr
 
     unsigned short displacement = 8 * sizeof (unsigned short) -1;
     unsigned short mask = 1 << displacement;
-    freeGenericPtr(image);
+    freeMemory->freeGenericPtr(image);
+    //freeGenericPtr(image);
     if(ptr1 != 999 && ptr2 == 999 && ptr3 == 999 && ptr4 == 999 && ptr5 == 999 && ptr6 == 999 && ptr7 == 999 && ptr8 == 999)
         image = new QImage(QSize(300,240), QImage::Format_MonoLSB);
     else if(ptr1 != 999 && ptr2 != 999 && ptr3 == 999 && ptr4 == 999 && ptr5 == 999 && ptr6 == 999 && ptr7 == 999 && ptr8 == 999)
@@ -4127,19 +4135,42 @@ void MainWindow::saveSight(){
     file.close();
 }
 
+int MainWindow::getNumberNeurons(){
+    int numberLines = 0;
+    QFile file("./Obj/sight.dot");
+    file.open(QIODevice::ReadOnly);
+    while(!file.atEnd()){
+        file.readLine();
+        numberLines++;
+    }
+    file.close();
+
+    return numberLines;
+}
+
 void MainWindow::getSight(){
     std::cout<<"MainWindow::getSight"<<endl;
+
 
     QString line, ident, ca, ra, vec1, vec2, vec3, vec4, vec5, vec6, vec7, vec8, vec9, vec10, vec11, vec12, vec13, vec14, vec15, vec16, vect;
     QString v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23, v24, v25, v26, v27, v28, v29, v30, v31, v32;
     QFile file("./Obj/sight.dot");
     bool ok;
+    int item = 0;
+    int size = getNumberNeurons();
+    vectorId[size];
+    vectorCategory[size];
+
     file.open(QIODevice::ReadOnly);
+
+
     while(!file.atEnd()){
         line = file.readLine();
         QStringList pieces = line.split(";");
         ident = pieces.value(pieces.length() - 20);
         ca = pieces.value(pieces.length() - 19);
+        vectorCategory[item] = ca.toInt();
+        vectorId[item] = ident.toInt();
         ra = pieces.value(pieces.length() - 18);
         vec1 = pieces.value(pieces.length() - 17);
         vec2 = pieces.value(pieces.length() - 16);
@@ -4264,12 +4295,17 @@ void MainWindow::getSight(){
             unsigned short val16 = (unsigned short) value16;
             realLearnPre(cate, rad, val1, val2, val3, val4, val5, val6, val7, val8, val9, val10, val11, val12, val13, val14, val15, val16, ve1, ve2, ve3, ve4, ve5, ve6, ve7, ve8, ve9, ve10, ve11, ve12, ve13, ve14, ve15, ve16, ve17, ve18, ve19, ve20, ve21, ve22, ve23, ve24, ve25, ve26, ve27, ve28, ve29, ve30, ve31, ve32);
         }
+        item++;
     }
     file.close();
+
+    for(int a=0; a<getNumberNeurons();a++)
+    {
+        std::cout<<"VectorCategory: "<<vectorCategory[a]<<std::endl;
+    }
 }
 
 void MainWindow::realLearnPre(int ca, int ra, unsigned short val1, unsigned short val2, unsigned short val3, unsigned short val4, unsigned short val5, unsigned short val6, unsigned short val7, unsigned short val8, unsigned short val9, unsigned short val10, unsigned short val11, unsigned short val12, unsigned short val13, unsigned short val14, unsigned short val15, unsigned short val16, int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8, int v9, int v10, int v11, int v12, int v13, int v14, int v15, int v16, int v17, int v18, int v19, int v20, int v21, int v22, int v23, int v24, int v25, int v26, int v27, int v28, int v29, int v30, int v31, int v32){
-    std::cout<<"MainWindow::realLearnPre"<<endl;
 
     unsigned char ptr = (*(neuralSenses[SIGHT].ptr))++;
     if(ptr > sizeNet.numNeuron){
@@ -4315,7 +4351,6 @@ void MainWindow::realLearnPre(int ca, int ra, unsigned short val1, unsigned shor
 }
 
 void MainWindow::learnBinaryCharacteristicPre(senses sense,int ptr, unsigned short val1, unsigned short val2, unsigned short val3, unsigned short val4, unsigned short val5, unsigned short val6, unsigned short val7, unsigned short val8, unsigned short val9, unsigned short val10, unsigned short val11, unsigned short val12, unsigned short val13, unsigned short val14, unsigned short val15, unsigned short val16){
-    std::cout<<"MainWindow::learnBinaryCharacteristicPre"<<endl;
 
     neuralSenses[sense].binaryCharacteristic[ptr*16+0] = val1;
     neuralSenses[sense].binaryCharacteristic[ptr*16+1] = val2;
@@ -4342,7 +4377,8 @@ void MainWindow::paintBinarySyllab(int ptr){
 
     unsigned short displacement = 8 * sizeof (unsigned short) -1;
     unsigned short mask = 1 << displacement;
-    freeGenericPtr(image);
+    freeMemory->freeGenericPtr(image);
+    //freeGenericPtr(image);
     image = new QImage(QSize(230,230), QImage::Format_MonoLSB);
     image->fill(Qt::color1);
     QPainter paint;
@@ -4389,7 +4425,8 @@ void MainWindow::fillTable(){
             this->setVisible(false);
             if(dialogTableWord->exec() == QDialog::Rejected)
                 this->setVisible(true);
-            freeGenericPtr(dialogTableWord);
+            freeMemory->freeGenericPtr(dialogTableWord);
+            //freeGenericPtr(dialogTableWord);
             dialogTableWord = NULL;
             si = 0;
         }

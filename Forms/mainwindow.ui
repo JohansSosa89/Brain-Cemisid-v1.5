@@ -716,6 +716,13 @@
          </spacer>
         </item>
         <item>
+         <widget class="QCheckBox" name="checkBox_Teach">
+          <property name="text">
+           <string>Enseñar</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QCheckBox" name="checkBox_suma">
           <property name="palette">
            <palette>

@@ -80,11 +80,12 @@ void panelthinking::showThinkingWrited(int category){
     showthinkingwrited->setWindowModality(Qt::WindowModal);
     showthinkingwrited->setcategory(category);
     showthinkingwrited->convertNumbertoWord(category);
+
     this->setVisible(false);
     if(showthinkingwrited->exec() == QDialog::Rejected)
         this->setVisible(true);
 
-    //freeGenericPtr(panelThinking);
+    freeGenericPtr(showthinkingwrited);
     showthinkingwrited = NULL;
 }
 
@@ -110,4 +111,10 @@ void panelthinking::paintBinaryNetSyllab(int ID, int Category){
     }
     hit = 0;
     //ui->pushButtonImage->setEnabled(true);
+}
+
+template <class T>
+void panelthinking::freeGenericPtr(T *ptr){
+    if(ptr!= NULL)
+        delete ptr;
 }
