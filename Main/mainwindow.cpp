@@ -226,15 +226,24 @@ void MainWindow::addition(struct queue &up, struct queue &down){
     for(j=0; j<l_result; j++){
         result_int = sumQueue->dequeue(result);
         text = text + QString::number(result_int);
+        std::cout<<"IdNeurona nro: "<<obtainID(getNumberNeurons(), result_int)<<std::endl;
+        paintBinaryCharacteristic(SIGHT, obtainID(getNumberNeurons(), result_int));
     }
     std::cout<<"valor de l_result: "<<l_result<<std::endl;
     for(j=l_result; j>=0; j--){
         reverse = reverse + text[j];
-        std::cout<<"valor del reverse: "<<reverse.toInt()<<std::endl;
-        paintBinaryCharacteristic(SIGHT,reverse.toInt());
-        sumNetwork->vectorNetworkSum[j] = 1;
+        sumNetwork->vectorNetworkSum[j] = 1; 
     }
     ui->textBrowser->setText("RESULTADO DE LA SUMA: \n"+reverse);
+
+}
+
+int MainWindow::obtainID(int size, int DigitoSuma){
+
+    for(int a=0; a<size; a++){
+        if(vectorCategory[a]==DigitoSuma)
+            return vectorId[a];
+    }
 }
 
 void MainWindow::on_pushButtonBip_clicked(){
@@ -4158,8 +4167,8 @@ void MainWindow::getSight(){
     bool ok;
     int item = 0;
     int size = getNumberNeurons();
-    vectorId[size];
-    vectorCategory[size];
+    vectorId = new unsigned int[size];
+    vectorCategory = new unsigned int[size];
 
     file.open(QIODevice::ReadOnly);
 
@@ -4298,11 +4307,6 @@ void MainWindow::getSight(){
         item++;
     }
     file.close();
-
-    for(int a=0; a<getNumberNeurons();a++)
-    {
-        std::cout<<"VectorCategory: "<<vectorCategory[a]<<std::endl;
-    }
 }
 
 void MainWindow::realLearnPre(int ca, int ra, unsigned short val1, unsigned short val2, unsigned short val3, unsigned short val4, unsigned short val5, unsigned short val6, unsigned short val7, unsigned short val8, unsigned short val9, unsigned short val10, unsigned short val11, unsigned short val12, unsigned short val13, unsigned short val14, unsigned short val15, unsigned short val16, int v1, int v2, int v3, int v4, int v5, int v6, int v7, int v8, int v9, int v10, int v11, int v12, int v13, int v14, int v15, int v16, int v17, int v18, int v19, int v20, int v21, int v22, int v23, int v24, int v25, int v26, int v27, int v28, int v29, int v30, int v31, int v32){

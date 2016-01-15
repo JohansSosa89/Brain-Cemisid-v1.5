@@ -112,6 +112,7 @@ public slots :
     //johan sosa//
     void showPanelThinking(senses sense, int ptr, int categoryNeuron);
     int getNumberNeurons();
+    int obtainID(int size, int DigitoSuma);
 
 private slots:
     void on_pushButtonBip_clicked();
@@ -173,8 +174,8 @@ private:
     struct queue adding_up;
     struct queue adding_down;
     struct queue result;
-    int vectorCategory;
-    int vectorId;
+    unsigned int *vectorCategory;
+    unsigned int *vectorId;
     void initGui();
     void activateInterface(bool state);
     void setNull();
