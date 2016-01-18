@@ -13,7 +13,12 @@ struct node{
 ///estructura queque, contiene 2 variables 1) puntero de tipo node llamado foward y 2) puntero de tipo node llamado back
 struct queue{
    node *foward;
-   node *back  ;
+   node *back;
+
+   queue(){
+       foward = NULL;
+       back = NULL;
+   }
 };
 
 class SumQueue{

@@ -2,13 +2,18 @@
 
 void SumQueue::enqueue(struct queue &q, int value){
      struct node *aux = new(struct node);
+     std::cout<<"puntoDeControl A"<<std::endl;
      aux->num = value;
      aux->next = NULL;
-     if(q.foward == NULL)
+     std::cout<<"puntoDeControl B"<<std::endl;
+     if(q.foward == NULL){
+         std::cout<<"puntoDeControl C"<<std::endl;
          q.foward = aux;   // encola el primero elemento
+     }
      else
          (q.back)->next = aux;
      q.back = aux;        // puntero que siempre apunta al ultimo elemento
+     std::cout<<"puntoDeControl D"<<std::endl;
 }
 
 int SumQueue::dequeue(struct queue &q){

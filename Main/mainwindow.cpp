@@ -223,18 +223,20 @@ void MainWindow::addition(struct queue &up, struct queue &down){
 
     ui->textBrowser->show();
     l_result = sumQueue->queueLenght(result);
-    for(j=0; j<l_result; j++){
+    paintBinaryCharacteristicAddition(SIGHT,result);
+   /* for(j=l_result-1; j>=0; j--){
         result_int = sumQueue->dequeue(result);
         text = text + QString::number(result_int);
-        std::cout<<"IdNeurona nro: "<<obtainID(getNumberNeurons(), result_int)<<std::endl;
-        paintBinaryCharacteristic(SIGHT, obtainID(getNumberNeurons(), result_int));
+        //std::cout<<"IdNeurona nro: "<<obtainID(getNumberNeurons(), result_int)<<std::endl;
+        //Addition(SIGHT, obtainID(getNumberNeurons(), result_int),sumQueue);
     }
     std::cout<<"valor de l_result: "<<l_result<<std::endl;
     for(j=l_result; j>=0; j--){
         reverse = reverse + text[j];
         sumNetwork->vectorNetworkSum[j] = 1; 
     }
-    ui->textBrowser->setText("RESULTADO DE LA SUMA: \n"+reverse);
+    ui->textBrowser->setText("RESULTADO DE LA SUMA: \n"+reverse);*/
+
 
 }
 
@@ -386,6 +388,7 @@ void MainWindow::processGrid(){
 
                         //hace el llamado al metodo de conteo
                         paintCount(k-1);
+
                     }
                  }else{
                     std::cout<<"No conozco ese numero, deberia de aprenderlo primero y asociarlo a una cantidad"<<endl;
@@ -707,7 +710,6 @@ void MainWindow::paintNetNeuron(senses sense, bool onlyHits){
 }
 
 void MainWindow::paintBinaryCharacteristic(senses sense, int ptr){
-    std::cout<<"MainWindow::paintBinaryCharacteristic"<<endl;
 
     unsigned short displacement = 8 * sizeof (unsigned short) -1;
     unsigned short mask = 1 << displacement;
@@ -727,6 +729,44 @@ void MainWindow::paintBinaryCharacteristic(senses sense, int ptr){
             if(value &mask)
                 paint.drawRect(QRect(100+(15-j)*10,50+i*10,8,8));//(x,y) x columnas y filas
             value <<= 1;
+        }
+    }
+    paint.end();
+    ViewFinder &view = ViewFinder::getInstance(this);
+    view.showBinaryCharacteristic(image);
+}
+
+void MainWindow::paintBinaryCharacteristicAddition(senses sense, queue result_suma){
+    std::cout<<"MainWindow::paintBinaryCharacteristicAddition"<<endl;
+
+    unsigned short displacement = 8 * sizeof (unsigned short) -1;
+    unsigned short mask = 1 << displacement;
+    int ptr;
+    int resultado=0;
+    freeMemory->freeGenericPtr(image);
+    image = new QImage(QSize(1350,700), QImage::Format_MonoLSB);
+    image->fill(Qt::color1);
+    QPainter paint;
+    paint.begin(image);
+    QPen pen(QColor(Qt::color1));
+    paint.setPen(pen);
+    paint.setBrush(QBrush(QColor(Qt::color1), Qt::SolidPattern));
+    QString text = (sense == HEARING ) ? "VOZ" : "PENSANDO";
+    paint.drawText(QRect(100,20,100,100),text);
+    std::cout<<"Tamaño de la cola: "<<sumQueue->queueLenght(result_suma)<<std::endl;
+    for(int a=sumQueue->queueLenght(result_suma)-1; a>=0; a--){
+        resultado = sumQueue->dequeue(result_suma);
+        ptr = obtainID(getNumberNeurons(), resultado);
+        std::cout<<"valor de resultado: "<<resultado<<std::endl;
+        std::cout<<"ID de la neurona: "<<ptr<<std::endl;
+
+        for(int i=0; i<16 ; i++){
+            unsigned short value = neuralSenses[sense].binaryCharacteristic[ptr * 16 + i];
+            for(unsigned short j = 0 ; j <= displacement; j++){
+                if(value &mask)
+                    paint.drawRect(QRect((150*(a))+(15-j)*10,50+i*10,8,8));//(x,y) x columnas y filas
+                value <<= 1;
+            }
         }
     }
     paint.end();
@@ -4451,9 +4491,32 @@ void MainWindow::orderProtocol(){
 }
 
 void MainWindow::paintCount(int times){
-   int img_width = 204;
+    std::cout<<"times: "<<times<<endl;
+    std::cout<<"dentro de la funcion de conteo"<<endl;
 
-   std::cout<<"dentro de la funcion de conteo"<<endl;
+    struct queue word_count;
+    word_count.foward =NULL;
+    word_count.back =NULL;
+    std::cout<<"Checkpoint A"<<endl;
+
+    for(int a=0; a<times; a++){
+        std::cout<<"Checkpoint B"<<endl;
+        if(sumQueue==NULL)
+            std::cout<<"sumQueue NULL"<<endl;
+        else
+            std::cout<<"sumQueue NO ES NULL"<<endl;
+        sumQueue->enqueue(word_count, 42);
+        std::cout<<"dentro del for"<<endl;
+    }
+    std::cout<<"despues del for"<<endl;
+    paintBinaryCharacteristicAddition(SIGHT,word_count);
+
+
+
+
+    /*int img_width = 204;
+
+   /*std::cout<<"dentro de la funcion de conteo"<<endl;
    std::cout<<times<<endl;
    if(times == 1){
        QImage image1("icons/house.png");
@@ -4581,5 +4644,6 @@ void MainWindow::paintCount(int times){
        painter.end();
        ViewFinder &view = ViewFinder::getInstance(this);
        view.think(result);
-   }
+   }*/
 }
+

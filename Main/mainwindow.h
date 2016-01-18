@@ -113,6 +113,7 @@ public slots :
     void showPanelThinking(senses sense, int ptr, int categoryNeuron);
     int getNumberNeurons();
     int obtainID(int size, int DigitoSuma);
+    void paintBinaryCharacteristicAddition(senses sense, queue result_suma);
 
 private slots:
     void on_pushButtonBip_clicked();
