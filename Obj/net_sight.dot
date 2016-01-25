@@ -1,14 +1,14 @@
 graph net_neuron{
 rankdir=LR;
 subgraph cluster_0{ }
-subgraph cluster_1{ "item132" [label=  "id Neurona: 132\nCategor&iacute;a: '1'"];
-}
+subgraph cluster_1{ }
 subgraph cluster_2{ }
 subgraph cluster_3{ }
-subgraph cluster_4{ "item134" [label=  "id Neurona: 134\nCategor&iacute;a: '4'"];
+subgraph cluster_4{ }
+subgraph cluster_5{ "item104" [label=  "id Neurona: 104\nCategor&iacute;a: '5'"];
 }
-subgraph cluster_5{ }
-subgraph cluster_6{ }
+subgraph cluster_6{ "item123" [label=  "id Neurona: 123\nCategor&iacute;a: '6'"];
+}
 subgraph cluster_7{ }
 subgraph cluster_8{ }
 subgraph cluster_9{ }
@@ -106,5 +106,6 @@ subgraph cluster_100{ }
 subgraph cluster_101{ }
 subgraph cluster_102{ }
 subgraph cluster_103{ }
+subgraph cluster_104{ }
 
 }

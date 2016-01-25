@@ -73,44 +73,6 @@ void MainWindow::showSelectDevice(bool isVisibleButton){
     dialogSelectHardware = NULL;
 }
 
-/*void MainWindow::freeVectorsCharacteristic(){
-
-    freeGenericPtr(characteristicVectorEar);
-    freeGenericPtr(characteristicVectorEye);
-}
-
-void MainWindow::freeFormTeaching(){
-    if(formsTeaching != NULL){
-        for(int i = 0; i < numSenses; i++)
-            delete formsTeaching[i];
-        delete formsTeaching;
-    }
-    freeGenericPtr(isInactivateSense);
-}
-
-void MainWindow::freeStates(){
-    freeGenericPtr(stateSenses);
-}
-
-void MainWindow::freeSenses(){
-    if(neuralSenses != NULL){
-        for(register int i = 0; i < this->numSenses; i++){
-            freeGenericPtr(neuralSenses[i].vectorNeuron);
-            freeGenericPtr(neuralSenses[i].vectorFlags);
-            freeGenericPtr(neuralSenses[i].binaryCharacteristic);
-        }
-        delete neuralSenses;
-    }
-}
-
-void MainWindow::freeInterface(){
-    if(interface!= NULL){
-        interface[HEARING].freeMem(true);
-        interface[SIGHT].freeMem(true);
-        delete interface;
-    }
-}*/
-
 void MainWindow::freeUi(){
     delete ui;
     delete chemicalLayerEar;
@@ -216,14 +178,19 @@ void MainWindow::addition(struct queue &up, struct queue &down){
             k++;
         }
         sumQueue->enqueue(result,k-1);
+        sumQueue->enqueue(id_queue,obtainID(getNumberNeurons(),k-1));
         i++;
     }
     if((t_up + t_down) >= 10)
         sumQueue->enqueue(result,carry);
+    sumQueue->enqueue(id_queue,obtainID(getNumberNeurons(),carry));
 
     ui->textBrowser->show();
     l_result = sumQueue->queueLenght(result);
-    paintBinaryCharacteristicAddition(SIGHT,result);
+
+    IdForm = 1;
+    showPanelThinking(SIGHT,0,0,result,id_queue, IdForm);
+   // paintBinaryCharacteristicAddition(SIGHT,result);
    /* for(j=l_result-1; j>=0; j--){
         result_int = sumQueue->dequeue(result);
         text = text + QString::number(result_int);
@@ -240,10 +207,10 @@ void MainWindow::addition(struct queue &up, struct queue &down){
 
 }
 
-int MainWindow::obtainID(int size, int DigitoSuma){
+int MainWindow::obtainID(int size, int Digito){
 
     for(int a=0; a<size; a++){
-        if(vectorCategory[a]==DigitoSuma)
+        if(vectorCategory[a]==Digito)
             return vectorId[a];
     }
 }
@@ -312,11 +279,7 @@ void MainWindow::processGrid(){
         if(!ui->checkBox_Teach->isChecked()){
             if(stateSenses[SIGHT]== IS_HIT){
                 cout<<"neurona hizo hit"<<endl;
-                showPanelThinking(SIGHT, interface[SIGHT].id[0], interface[SIGHT].arrayCategory[0]);
-                /*chemicalLayerEye->clear();
-                clearTables();
-                setFormsCheck();*/
-                activeLayers(true);
+                showPanelThinking(SIGHT, interface[SIGHT].id[0], interface[SIGHT].arrayCategory[0],word_count,id_queue, IdForm);
             }
             else{
                 cout<<"neurona hizo diff o no_hit"<<endl;
@@ -440,7 +403,7 @@ void MainWindow::processGrid(){
 
         if(stateSenses[HEARING]== IS_HIT && (ui->checkBox_leer->isChecked() || ui->checkBox_syl->isChecked()) && !ui->checkBox_Teach->isChecked()){
             cout<<"neurona hizo hit"<<endl;
-            showPanelThinking(HEARING, returnID(word2), returnCategory(word2));
+            showPanelThinking(HEARING, returnID(word2), returnCategory(word2),word_count, id_queue, IdForm);
             chemicalLayerEye->clear();
         }
         else{
@@ -493,6 +456,13 @@ void MainWindow::resetSight(){
 void MainWindow::clickBum(){
     std::cout<<"MainWindow::clickBum"<<endl;
 
+    /////provisional//////
+    isInactivateSense[SIGHT] = true;
+    isInactivateSense[HEARING] = true;
+    activeLayers(true);
+    word2 = "";
+    //////////////////////
+
     bum = 1;
     chemicalLayerEye->setIsEditable(true);
     ui->pushButtonBum->setEnabled(false);
@@ -504,6 +474,9 @@ void MainWindow::clickBum(){
         ui->pushButtonProcess->setStyleSheet("*{background-color: rgb(96,96,96,120)}");
         ui->pushButtonProcess->setEnabled(true);
     }
+
+    if(ui->checkBox_cuento->isChecked() && !ui->checkBox_Teach->isChecked())
+        ui->InputWordCount->setEnabled(true);
 }
 
 void MainWindow::activateButtonBum(){
@@ -686,7 +659,7 @@ void MainWindow::activeLayers(bool active){
 }
 
 void MainWindow::finishGoodAnswer(senses sense){
-    std::cout<<"MainWindow::finishGoodAnswer"<<endl;
+    std::cout<<"MainWindow::finishGoodAnswerSonido"<<endl;
 
     isInactivateSense[sense] = true;
     activeLayers(true);
@@ -729,44 +702,6 @@ void MainWindow::paintBinaryCharacteristic(senses sense, int ptr){
             if(value &mask)
                 paint.drawRect(QRect(100+(15-j)*10,50+i*10,8,8));//(x,y) x columnas y filas
             value <<= 1;
-        }
-    }
-    paint.end();
-    ViewFinder &view = ViewFinder::getInstance(this);
-    view.showBinaryCharacteristic(image);
-}
-
-void MainWindow::paintBinaryCharacteristicAddition(senses sense, queue result_suma){
-    std::cout<<"MainWindow::paintBinaryCharacteristicAddition"<<endl;
-
-    unsigned short displacement = 8 * sizeof (unsigned short) -1;
-    unsigned short mask = 1 << displacement;
-    int ptr;
-    int resultado=0;
-    freeMemory->freeGenericPtr(image);
-    image = new QImage(QSize(1350,700), QImage::Format_MonoLSB);
-    image->fill(Qt::color1);
-    QPainter paint;
-    paint.begin(image);
-    QPen pen(QColor(Qt::color1));
-    paint.setPen(pen);
-    paint.setBrush(QBrush(QColor(Qt::color1), Qt::SolidPattern));
-    QString text = (sense == HEARING ) ? "VOZ" : "PENSANDO";
-    paint.drawText(QRect(100,20,100,100),text);
-    std::cout<<"Tamaño de la cola: "<<sumQueue->queueLenght(result_suma)<<std::endl;
-    for(int a=sumQueue->queueLenght(result_suma)-1; a>=0; a--){
-        resultado = sumQueue->dequeue(result_suma);
-        ptr = obtainID(getNumberNeurons(), resultado);
-        std::cout<<"valor de resultado: "<<resultado<<std::endl;
-        std::cout<<"ID de la neurona: "<<ptr<<std::endl;
-
-        for(int i=0; i<16 ; i++){
-            unsigned short value = neuralSenses[sense].binaryCharacteristic[ptr * 16 + i];
-            for(unsigned short j = 0 ; j <= displacement; j++){
-                if(value &mask)
-                    paint.drawRect(QRect((150*(a))+(15-j)*10,50+i*10,8,8));//(x,y) x columnas y filas
-                value <<= 1;
-            }
         }
     }
     paint.end();
@@ -869,12 +804,16 @@ void MainWindow::showDialogInstructions(){
     dialogInstructions = NULL;
 }
 
-void MainWindow::showPanelThinking(senses sense, int ptr, int categoryNeuron){
+void MainWindow::showPanelThinking(senses sense, int ptr, int categoryNeuron, queue queue_result, queue queue_id, int idFrm){
+
     panelThinking = new panelthinking(0,neuralSenses);
     panelThinking->setWindowModality(Qt::WindowModal);
     panelThinking->setSenses(sense);
     panelThinking->setPtr(ptr);
     panelThinking->setCategory(categoryNeuron);
+    panelThinking->setQueque(queue_result);
+    panelThinking->setQueque_id(queue_id);
+    panelThinking->setIdForm(idFrm);
     this->setVisible(false);
     if(panelThinking->exec() == QDialog::Rejected)
         this->setVisible(true);
@@ -1750,6 +1689,7 @@ void MainWindow::initGui(){
     chemicalLayerEye= new ChemicalLayer(16,16,12,12);
     chemicalLayerEye->setIsEditable(false);
     ui->lineEditEarInput->setEnabled(false);
+    ui->InputWordCount->setEnabled(false);
     ui->horizontalLayoutEar->addWidget(chemicalLayerEar);
     ui->horizontalLayoutEye->addWidget(chemicalLayerEye);
     ui->pushButtonBum->setEnabled(true);
@@ -1773,6 +1713,7 @@ void MainWindow::initGui(){
     word.clear();
     QRegExp alphabet("[A-Z0-9+=][A-Z]*");
     ui->lineEditEarInput->setValidator(new QRegExpValidator(alphabet,this));
+    ui->InputWordCount->setValidator(new QRegExpValidator(alphabet,this));
     ViewFinder::getInstance(this);
     connect(chemicalLayerEar,SIGNAL(change()),this,SLOT(activateButtonBip()));
     connect(chemicalLayerEye,SIGNAL(change()),this,SLOT(activateButtonBip()));
@@ -4491,159 +4432,18 @@ void MainWindow::orderProtocol(){
 }
 
 void MainWindow::paintCount(int times){
-    std::cout<<"times: "<<times<<endl;
-    std::cout<<"dentro de la funcion de conteo"<<endl;
-
-    struct queue word_count;
-    word_count.foward =NULL;
-    word_count.back =NULL;
-    std::cout<<"Checkpoint A"<<endl;
+    int ptr;
+    /*word_count.foward =NULL;
+    word_count.back =NULL;*/
 
     for(int a=0; a<times; a++){
-        std::cout<<"Checkpoint B"<<endl;
-        if(sumQueue==NULL)
-            std::cout<<"sumQueue NULL"<<endl;
-        else
-            std::cout<<"sumQueue NO ES NULL"<<endl;
-        sumQueue->enqueue(word_count, 42);
-        std::cout<<"dentro del for"<<endl;
+        sumQueue->enqueue(word_count, returnCategory(ui->InputWordCount->text()));
     }
-    std::cout<<"despues del for"<<endl;
-    paintBinaryCharacteristicAddition(SIGHT,word_count);
-
-
-
-
-    /*int img_width = 204;
-
-   /*std::cout<<"dentro de la funcion de conteo"<<endl;
-   std::cout<<times<<endl;
-   if(times == 1){
-       QImage image1("icons/house.png");
-       QImage result(image1.width(), image1.height(), QImage::Format_RGB32);
-       QPainter painter(this);
-       painter.begin(&result);
-       painter.drawImage(0,0,image1);
-       painter.end();
-       ViewFinder &view = ViewFinder::getInstance(this);
-       view.think(result);
-   }
-   if(times == 2){
-       QImage image1("icons/house.png");
-      // QImage image2("icons/house.png");
-       QImage result(image1.width()*2, image1.height(), QImage::Format_RGB32);
-       QPainter painter(this);
-       painter.begin(&result);
-       painter.drawImage(0,0,image1);
-       painter.drawImage(img_width,0,image1);
-       painter.end();
-       ViewFinder &view = ViewFinder::getInstance(this);
-       view.think(result);
-   }
-   if(times == 3){
-       QImage image1("icons/house.png");
-       QImage result(image1.width()*3, image1.height(), QImage::Format_RGB32);
-       QPainter painter(this);
-       painter.begin(&result);
-       painter.drawImage(0,0,image1);
-       painter.drawImage(img_width,0,image1);
-       painter.drawImage(img_width*2,0,image1);
-       painter.end();
-       ViewFinder &view = ViewFinder::getInstance(this);
-       view.think(result);
-   }
-   if(times == 4){
-       QImage image1("icons/house.png");
-       QImage result(image1.width()*4, image1.height(), QImage::Format_RGB32);
-       QPainter painter(this);
-       painter.begin(&result);
-       painter.drawImage(0,0,image1);
-       painter.drawImage(img_width,0,image1);
-       painter.drawImage(img_width*2,0,image1);
-       painter.drawImage(img_width*3,0,image1);
-       painter.end();
-       ViewFinder &view = ViewFinder::getInstance(this);
-       view.think(result);
-   }
-   if(times == 5){
-       QImage image1("icons/house.png");
-       QImage result(image1.width()*5, image1.height(), QImage::Format_RGB32);
-       QPainter painter(this);
-       painter.begin(&result);
-       painter.drawImage(0,0,image1);
-       painter.drawImage(img_width,0,image1);
-       painter.drawImage(img_width*2,0,image1);
-       painter.drawImage(img_width*3,0,image1);
-       painter.drawImage(img_width*4,0,image1);
-       painter.end();
-       ViewFinder &view = ViewFinder::getInstance(this);
-       view.think(result);
-   }
-   if(times == 6){
-       QImage image1("icons/house.png");
-       QImage result(image1.width()*5, image1.height()*2, QImage::Format_RGB32);
-       QPainter painter(this);
-       painter.begin(&result);
-       painter.drawImage(0,0,image1);
-       painter.drawImage(img_width,0,image1);
-       painter.drawImage(img_width*2,0,image1);
-       painter.drawImage(img_width*3,0,image1);
-       painter.drawImage(img_width*4,0,image1);
-       painter.drawImage(0,img_width,image1);
-       painter.end();
-       ViewFinder &view = ViewFinder::getInstance(this);
-       view.think(result);
-   }
-   if(times == 7){
-       QImage image1("icons/house.png");
-       QImage result(image1.width()*5, image1.height()*3, QImage::Format_RGB32);
-       QPainter painter(this);
-       painter.begin(&result);
-       painter.drawImage(0,0,image1);
-       painter.drawImage(img_width,0,image1);
-       painter.drawImage(img_width*2,0,image1);
-       painter.drawImage(img_width*3,0,image1);
-       painter.drawImage(img_width*4,0,image1);
-       painter.drawImage(0,img_width,image1);
-       painter.drawImage(img_width,img_width,image1);
-       painter.end();
-       ViewFinder &view = ViewFinder::getInstance(this);
-       view.think(result);
-   }
-   if(times == 8){
-       QImage image1("icons/house.png");
-       QImage result(image1.width()*5, image1.height()*4, QImage::Format_RGB32);
-       QPainter painter(this);
-       painter.begin(&result);
-       painter.drawImage(0,0,image1);
-       painter.drawImage(img_width,0,image1);
-       painter.drawImage(img_width*2,0,image1);
-       painter.drawImage(img_width*3,0,image1);
-       painter.drawImage(img_width*4,0,image1);
-       painter.drawImage(0,img_width,image1);
-       painter.drawImage(img_width,img_width,image1);
-       painter.drawImage(img_width*2,img_width,image1);
-       painter.end();
-       ViewFinder &view = ViewFinder::getInstance(this);
-       view.think(result);
-   }
-   if(times == 9){
-       QImage image1("icons/house.png");
-       QImage result(image1.width()*5, image1.height()*5, QImage::Format_RGB32);
-       QPainter painter(this);
-       painter.begin(&result);
-       painter.drawImage(0,0,image1);
-       painter.drawImage(img_width,0,image1);
-       painter.drawImage(img_width*2,0,image1);
-       painter.drawImage(img_width*3,0,image1);
-       painter.drawImage(img_width*4,0,image1);
-       painter.drawImage(0,img_width,image1);
-       painter.drawImage(img_width,img_width,image1);
-       painter.drawImage(img_width*2,img_width,image1);
-       painter.drawImage(img_width*3,img_width,image1);
-       painter.end();
-       ViewFinder &view = ViewFinder::getInstance(this);
-       view.think(result);
-   }*/
+    IdForm = 2;
+    ptr = obtainID(getNumberNeurons(), returnCategory(ui->InputWordCount->text()));
+    showPanelThinking(SIGHT,ptr,returnCategory(ui->InputWordCount->text()),word_count, id_queue,IdForm);
 }
+
+
+
 

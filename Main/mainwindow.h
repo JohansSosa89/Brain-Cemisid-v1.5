@@ -110,10 +110,10 @@ public slots :
     int returnID(QString sy);
     void correctWord();
     //johan sosa//
-    void showPanelThinking(senses sense, int ptr, int categoryNeuron);
+    void showPanelThinking(senses sense, int ptr, int categoryNeuron, queue queue_result, queue queue_id, int idFrm);
     int getNumberNeurons();
-    int obtainID(int size, int DigitoSuma);
-    void paintBinaryCharacteristicAddition(senses sense, queue result_suma);
+    int obtainID(int size, int Digito);
+
 
 private slots:
     void on_pushButtonBip_clicked();
@@ -175,8 +175,11 @@ private:
     struct queue adding_up;
     struct queue adding_down;
     struct queue result;
+    struct queue id_queue;
     unsigned int *vectorCategory;
     unsigned int *vectorId;
+    int IdForm = 0;
+    struct queue word_count;
     void initGui();
     void activateInterface(bool state);
     void setNull();
