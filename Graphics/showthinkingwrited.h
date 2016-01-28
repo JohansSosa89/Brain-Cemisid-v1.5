@@ -26,10 +26,10 @@ public:
 
 private:
     Ui::showThinkingwrited *ui;
-    int category;
+    int category, longitud, number;
     queue result;
     SumQueue *Queue;
-    QString word="", result_word="";
+    QString word="", result_word="", value="", text="";
     QFont font;
 
 };

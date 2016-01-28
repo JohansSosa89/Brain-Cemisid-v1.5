@@ -40,6 +40,8 @@ public:
     void setVectorCategory(unsigned int *setVectorCategory);
     void PlaySound(int category);
     void playSoundAddition(queue queue_result_sum);
+    void playCount(queue word_count, int category);
+    QString returnSound(int category);
     template<class T>
     void freeGenericPtr(T *puntero);
     senses getSenses();
@@ -67,13 +69,13 @@ private:
     SumQueue *Queue;
     senses sense;
     QMediaPlayer *sound;
-    int ptr;
+    int ptr, longitud, value;
     int categoryNeuron;
     int hit = 0;
     struct queue queueThink;
     struct queue queueIdThink;
     int idForm;
-    QString filename, originfile;
+    QString filename, originfile, text="", number;
     QMediaPlaylist *playList;
 
 };

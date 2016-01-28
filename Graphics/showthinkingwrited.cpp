@@ -238,11 +238,36 @@ void showThinkingwrited::convertNumbertoWord(int category){
 
 void showThinkingwrited::ConvertAdditionOnWord(queue result_sum){
 
-    int value = Queue->queueLenght(result_sum);
+    longitud = Queue->queueLenght(result_sum);
 
+    font = ui->lblshowword->font();
+    font.setBold(true);
+    switch (longitud) {
+    case 1:
+        font.setPointSize(50);
+        break;
+    case 2:
+        font.setPointSize(40);
+        break;
+    case 3:
+        font.setPointSize(25);
+        break;
+    case 4:
+        font.setPointSize(20);
+        break;
+    default:
+        font.setPointSize(50);
+        break;
+    }
 
-    for(int a= value -1;a>=0; a--){
-        switch (Queue->dequeue(result_sum)) {
+    for(int b=0; b<longitud; b++){
+        number = Queue->dequeue(result_sum);
+        text = text + QString::number(number);
+    }
+
+    for(int a=longitud - 1;a>=0; a--){
+
+        switch (text[a].digitValue()) {
         case 0:
             word = "CERO";
             break;
@@ -274,14 +299,12 @@ void showThinkingwrited::ConvertAdditionOnWord(queue result_sum){
             word = "NUEVE";
             break;
         default:
+            word = "???";
             break;
         }
 
-        result_word = result_word +" "+ word;
+        result_word = result_word+" "+word;
     }
-    font = ui->lblshowword->font();
-    font.setPointSize(25);
-    font.setBold(true);
     ui->lblshowword->setFont(font);
     ui->lblshowword->setText(result_word);
 }

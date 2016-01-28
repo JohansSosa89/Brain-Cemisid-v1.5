@@ -228,232 +228,236 @@ void panelthinking::freeGenericPtr(T *ptr){
 
 void panelthinking::on_btnSound_clicked()
 {
+    playList->clear();
+
     switch (idForm) {
     case 0:
         PlaySound(getCategory());
         break;
     case 1:
-        playList->clear();
+
         playSoundAddition(getQueque());
+        break;
+    case 2:
+        playCount(getQueque(), getCategory());
         break;
     default:
         break;
     }
 }
 
-void panelthinking::PlaySound(int category){
-
-    originfile="/home/johans/Escritorio/BrainCemisid-v1.5";
+QString panelthinking::returnSound(int category){
+    originfile="/home/johans/Escritorio/BrainCemisid-v1.5/Sounds_BrainCemisid/";
 
     switch(category){
     case 0:
-        filename = originfile+"/Sounds_BrainCemisid/0.mp3";
+        filename = originfile+"0.mp3";
         break;
 
     case 1:
-        filename = originfile+"/Sounds_BrainCemisid/1.mp3";
+        filename = originfile+"1.mp3";
         break;
 
     case 2:
-        filename = originfile+"/Sounds_BrainCemisid/2.mp3";
+        filename = originfile+"2.mp3";
         break;
 
     case 3:
-        filename = originfile+"/Sounds_BrainCemisid/3.mp3";
+        filename = originfile+"3.mp3";
         break;
 
     case 4:
-        filename = originfile+"/Sounds_BrainCemisid/4.mp3";
+        filename = originfile+"4.mp3";
         break;
 
     case 5:
-        filename = originfile+"/Sounds_BrainCemisid/5.mp3";
+        filename = originfile+"5.mp3";
         break;
 
     case 6:
-        filename = originfile+"/Sounds_BrainCemisid/6.mp3";
+        filename = originfile+"6.mp3";
         break;
 
     case 7:
-        filename = originfile+"/Sounds_BrainCemisid/7.mp3";
+        filename = originfile+"7.mp3";
         break;
 
     case 8:
-        filename = originfile+"/Sounds_BrainCemisid/8.mp3";
+        filename = originfile+"8.mp3";
         break;
 
     case 9:
-        filename = originfile+"/Sounds_BrainCemisid/9.mp3";
+        filename = originfile+"9.mp3";
         break;
     case 41:
-        filename = originfile+"/Sounds_BrainCemisid/coco.mp3";
+        filename = originfile+"coco.mp3";
         break;
     case 42:
-        filename = originfile+"/Sounds_BrainCemisid/caballo.mp3";
+        filename = originfile+"caballo.mp3";
         break;
     case 43:
-        filename = originfile+"/Sounds_BrainCemisid/nose.mp3";
+        filename = originfile+"nose.mp3";
         break;
     case 44:
-        filename = originfile+"/Sounds_BrainCemisid/casa.mp3";
+        filename = originfile+"casa.mp3";
         break;
     case 45:
-        filename = originfile+"/Sounds_BrainCemisid/sapo.mp3";
+        filename = originfile+"sapo.mp3";
         break;
     case 46:
-        filename = originfile+"/Sounds_BrainCemisid/gato.mp3";
+        filename = originfile+"gato.mp3";
         break;
     case 47:
-        filename = originfile+"/Sounds_BrainCemisid/pato.mp3";
+        filename = originfile+"pato.mp3";
         break;
     case 48:
-        filename = originfile+"/Sounds_BrainCemisid/carro.mp3";
+        filename = originfile+"carro.mp3";
         break;
     case 49:
-        filename = originfile+"/Sounds_BrainCemisid/gallo.mp3";
+        filename = originfile+"gallo.mp3";
         break;
     case 50:
-        filename = originfile+"/Sounds_BrainCemisid/culebra.mp3";
+        filename = originfile+"culebra.mp3";
         break;
     case 51:
-        filename = originfile+"/Sounds_BrainCemisid/leon.mp3";
+        filename = originfile+"leon.mp3";
         break;
     case 52:
-        filename = originfile+"/Sounds_BrainCemisid/venado.mp3";
+        filename = originfile+"venado.mp3";
         break;
     case 53:
-        filename = originfile+"/Sounds_BrainCemisid/avion.mp3";
+        filename = originfile+"avion.mp3";
         break;
     case 54:
-        filename = originfile+"/Sounds_BrainCemisid/cobra.mp3";
+        filename = originfile+"cobra.mp3";
         break;
     case 56:
-        filename = originfile+"/Sounds_BrainCemisid/1.mp3";
+        filename = originfile+"1.mp3";
         break;
     case 57:
-        filename = originfile+"/Sounds_BrainCemisid/2.mp3";
+        filename = originfile+"2.mp3";
         break;
     case 59:
-        filename = originfile+"/Sounds_BrainCemisid/3.mp3";
+        filename = originfile+"3.mp3";
         break;
     case 61:
-        filename = originfile+"/Sounds_BrainCemisid/nose.mp3";
+        filename = originfile+"nose.mp3";
         break;
     case 62:
-        filename = originfile+"/Sounds_BrainCemisid/4.mp3";
+        filename = originfile+"4.mp3";
         break;
     case 64:
-        filename = originfile+"/Sounds_BrainCemisid/5.mp3";
+        filename = originfile+"5.mp3";
         break;
     case 65:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_A.mp3";
+        filename = originfile+"A.mp3";
         break;
     case 66:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_B.mp3";
+        filename = originfile+"B.mp3";
         break;
     case 67:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_C.mp3";
+        filename = originfile+"C.mp3";
         break;
     case 68:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_D.mp3";
+        filename = originfile+"D.mp3";
         break;
     case 69:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_E.mp3";
+        filename = originfile+"E.mp3";
         break;
     case 70:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_F.mp3";
+        filename = originfile+"F.mp3";
         break;
     case 71:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_G.mp3";
+        filename = originfile+"G.mp3";
         break;
     case 72:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_H.mp3";
+        filename = originfile+"H.mp3";
         break;
     case 73:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_I.mp3";
+        filename = originfile+"I.mp3";
         break;
     case 74:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_J.mp3";
+        filename = originfile+"J.mp3";
         break;
     case 75:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_K.mp3";
+        filename = originfile+"K.mp3";
         break;
     case 76:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_L.mp3";
+        filename = originfile+"L.mp3";
         break;
     case 77:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_M.mp3";
+        filename = originfile+"M.mp3";
         break;
     case 78:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_N.mp3";
+        filename = originfile+"N.mp3";
         break;
     case 79:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_O.mp3";
+        filename = originfile+"O.mp3";
         break;
     case 80:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_P.mp3";
+        filename = originfile+"P.mp3";
         break;
     case 81:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_Q.mp3";
+        filename = originfile+"Q.mp3";
         break;
     case 82:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_R.mp3";
+        filename = originfile+"R.mp3";
         break;
     case 83:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_S.mp3";
+        filename = originfile+"S.mp3";
         break;
     case 84:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_T.mp3";
+        filename = originfile+"T.mp3";
         break;
     case 85:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_U.mp3";
+        filename = originfile+"U.mp3";
         break;
     case 86:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_V.mp3";
+        filename = originfile+"V.mp3";
         break;
     case 87:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_W.mp3";
+        filename = originfile+"W.mp3";
         break;
     case 88:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_X.mp3";
+        filename = originfile+"X.mp3";
         break;
     case 89:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_Y.mp3";
+        filename = originfile+"Y.mp3";
         break;
     case 90:
-        filename = originfile+"/Sounds_BrainCemisid/Letra_Z.mp3";
+        filename = originfile+"Z.mp3";
         break;
     case 93:
-        filename = originfile+"/Sounds_BrainCemisid/6.mp3";
+        filename = originfile+"6.mp3";
         break;
     case 96:
-        filename = originfile+"/Sounds_BrainCemisid/7.mp3";
+        filename = originfile+"7.mp3";
         break;
     case 98:
-        filename = originfile+"/Sounds_BrainCemisid/8.mp3";
+        filename = originfile+"8.mp3";
         break;
     case 101:
-        filename = originfile+"/Sounds_BrainCemisid/9.mp3";
+        filename = originfile+"9.mp3";
         break;
     case 103:
-        filename = originfile+"/Sounds_BrainCemisid/0.mp3";
+        filename = originfile+"0.mp3";
         break;
     default:
-        filename = originfile+"/Sounds_BrainCemisid/nose.mp3";
+        filename = originfile+"nose.mp3";
         break;
     }
 
+    return filename;
+}
+
+void panelthinking::PlaySound(int category){
+
+    filename = returnSound(category);
     sound->setMedia(QUrl::fromLocalFile(filename));
     sound->play();
 }
 
 void panelthinking::playSoundAddition(queue queue_result_sum){
-
-    originfile = "/home/johans/Escritorio/BrainCemisid-v1.5";
-
-    int value, longitud;
-
-    QString text="", number;
 
     longitud = Queue->queueLenght(queue_result_sum);
 
@@ -465,9 +469,22 @@ void panelthinking::playSoundAddition(queue queue_result_sum){
     for(int item =longitud-1; item >=0; item--){
 
         number = text[item];
-        filename = originfile+"/Sounds_BrainCemisid/"+number+".mp3";
+        filename = returnSound(number.toInt());
         playList->addMedia(QUrl::fromLocalFile(filename));
     }
+
+    sound->setPlaylist(playList);
+    sound->play();
+}
+
+void panelthinking::playCount(queue word_count, int category){
+
+    longitud = Queue->queueLenght(word_count);
+    filename = returnSound(longitud);
+    playList->addMedia(QUrl::fromLocalFile(filename));
+
+    filename = returnSound(category);
+    playList->addMedia(QUrl::fromLocalFile(filename));
 
     sound->setPlaylist(playList);
     sound->play();
