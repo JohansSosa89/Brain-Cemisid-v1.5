@@ -21,204 +21,267 @@ int showThinkingwrited::getcategory(){
     return category;
 }
 
+void showThinkingwrited::setQueue(queue result){
+    this->result= result;
+}
+
+queue showThinkingwrited::getQueue(){
+    return result;
+}
+
 void showThinkingwrited::convertNumbertoWord(int category){
-    std::cout<<""<<std::endl;
 
     switch (category) {
     case 0:
-        ui->lblshowword->setText("CERO");
+        word = "CERO";
         break;
 
     case 1:
-        ui->lblshowword->setText("UNO");
+        word = "UNO";
         break;
 
     case 2:
-        ui->lblshowword->setText("DOS");
+        word = "DOS";
         break;
 
     case 3:
-        ui->lblshowword->setText("TRES");
+        word = "TRES";
         break;
 
     case 4:
-        ui->lblshowword->setText("CUATRO");
+        word = "CUATRO";
         break;
 
     case 5:
-        ui->lblshowword->setText("CINCO");
+        word = "CINCO";
         break;
 
     case 6:
-        ui->lblshowword->setText("SEIS");
+        word = "SEIS";
         break;
 
     case 7:
-        ui->lblshowword->setText("SIETE");
+        word = "SIETE";
         break;
 
     case 8:
-        ui->lblshowword->setText("OCHO");
+        word = "OCHO";
         break;
 
     case 9:
-        ui->lblshowword->setText("NUEVE");
+        word = "NUEVE";
         break;
     case 41:
-        ui->lblshowword->setText("COCO");
+        word = "COCO";
         break;
     case 42:
-        ui->lblshowword->setText("CABALLO");
+        word = "CABALLO";
         break;
     case 43:
-        ui->lblshowword->setText("+");
+        word = "+";
         break;
     case 44:
-        ui->lblshowword->setText("CASA");
+        word = "CASA";
         break;
     case 45:
-        ui->lblshowword->setText("SAPO");
+        word = "SAPO";
         break;
     case 46:
-        ui->lblshowword->setText("GATO");
+        word = "GATO";
         break;
     case 47:
-        ui->lblshowword->setText("PATO");
+        word = "PATO";
         break;
     case 48:
-        ui->lblshowword->setText("CARRO");
+        word = "CARRO";
         break;
     case 49:
-        ui->lblshowword->setText("GALLO");
+        word = "GALLO";
         break;
     case 50:
-        ui->lblshowword->setText("CULEBRA");
+        word = "CULEBRA";
         break;
     case 51:
-        ui->lblshowword->setText("LEON");
+        word = "LEON";
         break;
     case 52:
-        ui->lblshowword->setText("VENADO");
+        word = "VENADO";
         break;
     case 53:
-        ui->lblshowword->setText("AVION");
+        word = "AVION";
         break;
     case 54:
-        ui->lblshowword->setText("COBRA");
+        word = "COBRA";
         break;
     case 56:
-        ui->lblshowword->setText("UNO");
+        word = "UNO";
         break;
     case 57:
-        ui->lblshowword->setText("DOS");
+        word = "DOS";
         break;
     case 59:
-        ui->lblshowword->setText("TRES");
+        word = "TRES";
         break;
     case 61:
-        ui->lblshowword->setText("=");
+        word = "=";
         break;
     case 62:
-        ui->lblshowword->setText("CUATRO");
+        word = "CUATRO";
         break;
     case 64:
-        ui->lblshowword->setText("CINCO");
+        word = "CINCO";
         break;
     case 65:
-        ui->lblshowword->setText("A");
+        word = "A";
         break;
     case 66:
-        ui->lblshowword->setText("B");
+        word = "B";
         break;
     case 67:
-        ui->lblshowword->setText("C");
+        word = "C";
         break;
     case 68:
-        ui->lblshowword->setText("D");
+        word = "D";
         break;
     case 69:
-        ui->lblshowword->setText("E");
+        word = "E";
         break;
     case 70:
-        ui->lblshowword->setText("F");
+        word = "F";
         break;
     case 71:
-        ui->lblshowword->setText("G");
+        word = "G";
         break;
     case 72:
-        ui->lblshowword->setText("H");
+        word = "H";
         break;
     case 73:
-        ui->lblshowword->setText("I");
+        word = "I";
         break;
     case 74:
-        ui->lblshowword->setText("J");
+        word = "J";
         break;
     case 75:
-        ui->lblshowword->setText("K");
+        word = "K";
         break;
     case 76:
-        ui->lblshowword->setText("L");
+        word = "L";
         break;
     case 77:
-        ui->lblshowword->setText("M");
+        word = "M";
         break;
     case 78:
-        ui->lblshowword->setText("N");
+        word = "N";
         break;
     case 79:
-        ui->lblshowword->setText("O");
+        word = "O";
         break;
     case 80:
-        ui->lblshowword->setText("P");
+        word = "P";
         break;
     case 81:
-        ui->lblshowword->setText("Q");
+        word = "Q";
         break;
     case 82:
-        ui->lblshowword->setText("R");
+        word = "R";
         break;
     case 83:
-        ui->lblshowword->setText("S");
+        word = "S";
         break;
     case 84:
-        ui->lblshowword->setText("T");
+        word = "T";
         break;
     case 85:
-        ui->lblshowword->setText("U");
+        word = "U";
         break;
     case 86:
-        ui->lblshowword->setText("V");
+        word = "V";
         break;
     case 87:
-        ui->lblshowword->setText("W");
+        word = "W";
         break;
     case 88:
-        ui->lblshowword->setText("X");
+        word = "X";
         break;
     case 89:
-        ui->lblshowword->setText("Y");
+        word = "Y";
         break;
     case 90:
-        ui->lblshowword->setText("Z");
+        word = "Z";
         break;
     case 93:
-        ui->lblshowword->setText("SEIS");
+        word = "SEIS";
         break;
     case 96:
-        ui->lblshowword->setText("SIETE");
+        word = "SIETE";
         break;
     case 98:
-        ui->lblshowword->setText("OCHO");
+        word = "OCHO";
         break;
     case 101:
-        ui->lblshowword->setText("NUEVE");
+        word = "NUEVE";
         break;
     case 103:
-        ui->lblshowword->setText("CERO");
+        word = "CERO";
         break;
     default:
-        ui->lblshowword->setText("???");
+        word = "???";
         break;
     }
+    font = ui->lblshowword->font();
+    font.setPointSize(50);
+    font.setBold(true);
+    ui->lblshowword->setFont(font);
+    ui->lblshowword->setText(word);
+
+}
+
+void showThinkingwrited::ConvertAdditionOnWord(queue result_sum){
+
+    int value = Queue->queueLenght(result_sum);
+
+
+    for(int a= value -1;a>=0; a--){
+        switch (Queue->dequeue(result_sum)) {
+        case 0:
+            word = "CERO";
+            break;
+        case 1:
+            word = "UNO";
+            break;
+        case 2:
+            word = "DOS";
+            break;
+        case 3:
+            word = "TRES";
+            break;
+        case 4:
+            word = "CUATRO";
+            break;
+        case 5:
+            word = "CINCO";
+            break;
+        case 6:
+            word = "SEIS";
+            break;
+        case 7:
+            word = "SIETE";
+            break;
+        case 8:
+            word = "OCHO";
+            break;
+        case 9:
+            word = "NUEVE";
+            break;
+        default:
+            break;
+        }
+
+        result_word = result_word +" "+ word;
+    }
+    font = ui->lblshowword->font();
+    font.setPointSize(25);
+    font.setBold(true);
+    ui->lblshowword->setFont(font);
+    ui->lblshowword->setText(result_word);
 }

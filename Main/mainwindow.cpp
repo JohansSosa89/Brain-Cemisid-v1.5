@@ -461,6 +461,7 @@ void MainWindow::clickBum(){
     isInactivateSense[HEARING] = true;
     activeLayers(true);
     word2 = "";
+    sumQueue->clearQueue(result);
     //////////////////////
 
     bum = 1;

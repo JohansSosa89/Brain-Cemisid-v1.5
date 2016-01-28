@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include<iostream>
+#include"Class/sumQueue.h"
 
 namespace Ui {
 class showThinkingwrited;
@@ -18,11 +19,18 @@ public:
     void convertNumbertoWord(int category);
     int getcategory();
     void setcategory(int setcategory);
+    queue getQueue();
+    void setQueue(queue result);
+    void ConvertAdditionOnWord(queue result_sum);
     ~showThinkingwrited();
 
 private:
     Ui::showThinkingwrited *ui;
     int category;
+    queue result;
+    SumQueue *Queue;
+    QString word="", result_word="";
+    QFont font;
 
 };
 

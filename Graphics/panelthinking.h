@@ -8,6 +8,7 @@
 #include"Class/sumQueue.h"
 #include"Graphics/showthinkingwrited.h"
 #include<QMediaPlayer>
+#include<QMediaPlaylist>
 
 
 namespace Ui {
@@ -15,6 +16,8 @@ class panelthinking;
 }
 
 class QMediaPlayer;
+
+class QMediaPlaylist;
 
 class panelthinking : public QDialog
 {
@@ -26,7 +29,7 @@ public:
     void paintBinaryNetSyllab(int ID, int Category);
     void paintBinaryCharacteristicAddition(senses sense, queue result_queque, queue id_queue);
     void paintBinaryCharacteristicCount(senses sense, int ptr, queue result_queque);
-    void showThinkingWrited(int category);
+    void showThinkingWrited(int category, queue result_sum);
     void setSenses(senses setsense);
     void setPtr(int setptr);
     void setCategory(int setCategory);
@@ -36,6 +39,7 @@ public:
     void setVectorId(unsigned int *setVectorId);
     void setVectorCategory(unsigned int *setVectorCategory);
     void PlaySound(int category);
+    void playSoundAddition(queue queue_result_sum);
     template<class T>
     void freeGenericPtr(T *puntero);
     senses getSenses();
@@ -69,6 +73,8 @@ private:
     struct queue queueThink;
     struct queue queueIdThink;
     int idForm;
+    QString filename, originfile;
+    QMediaPlaylist *playList;
 
 };
 

@@ -6,6 +6,8 @@ panelthinking::panelthinking(QWidget *parent, const NeuralNetwork *neuralSenses)
     ui->setupUi(this);
     this->neuralSenses = neuralSenses;
     sound = new QMediaPlayer(this);
+    playList = new QMediaPlaylist(this);
+    //playList->clear();
 }
 
 panelthinking::~panelthinking()
@@ -95,7 +97,6 @@ void panelthinking::on_pushButton_3_clicked()
             paintBinaryCharacteristic(getSenses(), getPtr());
             break;
         case 1:
-            std::cout<<"Entrando a la funcion de pintar la suma"<<endl;
             paintBinaryCharacteristicAddition(getSenses(), getQueque(), getQueque_id());
             break;
         case 2:
@@ -110,14 +111,23 @@ void panelthinking::on_pushButton_3_clicked()
 
 void panelthinking::on_btnthinkword_clicked()
 {
-    showThinkingWrited(getCategory());
+    showThinkingWrited(getCategory(), getQueque());
 }
 
-void panelthinking::showThinkingWrited(int category){
+void panelthinking::showThinkingWrited(int category, queue result_sum){
     showthinkingwrited = new showThinkingwrited();
     showthinkingwrited->setWindowModality(Qt::WindowModal);
-//    showthinkingwrited->setcategory(category);
-    showthinkingwrited->convertNumbertoWord(category);
+    if(idForm == 0){
+        showthinkingwrited->convertNumbertoWord(category);
+    }
+    else{
+        if(idForm == 1){
+            showthinkingwrited->ConvertAdditionOnWord(result_sum);
+        }
+    }
+
+
+
 
     this->setVisible(false);
     if(showthinkingwrited->exec() == QDialog::Rejected)
@@ -152,14 +162,11 @@ void panelthinking::paintBinaryNetSyllab(int ID, int Category){
 }
 
 void panelthinking::paintBinaryCharacteristicAddition(senses sense, queue result_queque, queue id_queque){
-    std::cout<<"MainWindow::paintBinaryCharacteristicAddition"<<endl;
 
     unsigned short displacement = 8 * sizeof (unsigned short) -1;
     unsigned short mask = 1 << displacement;
     int ptr;
-    //int resultado=0;
     QImage *image = new QImage(QSize(1350,700), QImage::Format_MonoLSB);
-    //freeGenericPtr(image);
     image->fill(Qt::color1);
     QPainter paint;
     paint.begin(image);
@@ -169,9 +176,7 @@ void panelthinking::paintBinaryCharacteristicAddition(senses sense, queue result
     QString text = (sense == HEARING ) ? "VOZ" : "PENSANDO";
     paint.drawText(QRect(100,20,100,100),text);
     for(int a=Queue->queueLenght(result_queque)-1; a>=0; a--){
-        //resultado = Queue->dequeue(result_queque);
         ptr = Queue->dequeue(id_queque);
-        std::cout<<"valor de ptr dentro de la suma: "<<ptr<<endl;
         for(int i=0; i<16 ; i++){
             unsigned short value = neuralSenses[sense].binaryCharacteristic[ptr * 16 + i];
             for(unsigned short j = 0 ; j <= displacement; j++){
@@ -187,14 +192,11 @@ void panelthinking::paintBinaryCharacteristicAddition(senses sense, queue result
 }
 
 void panelthinking::paintBinaryCharacteristicCount(senses sense, int ptr, queue result_queque){
-    std::cout<<"MainWindow::paintBinaryCharacteristicCount"<<endl;
 
     unsigned short displacement = 8 * sizeof (unsigned short) -1;
     unsigned short mask = 1 << displacement;
-    //int puntero;
     int resultado=0;
     QImage *image = new QImage(QSize(1350,700), QImage::Format_MonoLSB);
-    //freeGenericPtr(image);
     image->fill(Qt::color1);
     QPainter paint;
     paint.begin(image);
@@ -204,8 +206,6 @@ void panelthinking::paintBinaryCharacteristicCount(senses sense, int ptr, queue 
     QString text = (sense == HEARING ) ? "VOZ" : "PENSANDO";
     paint.drawText(QRect(100,20,100,100),text);
     for(int a=Queue->queueLenght(result_queque)-1; a>=0; a--){
-        //resultado = Queue->dequeue(result_queque);
-        //ptr = obtainID(getNumberNeurons(), resultado);
         for(int i=0; i<16 ; i++){
             unsigned short value = neuralSenses[sense].binaryCharacteristic[ptr * 16 + i];
             for(unsigned short j = 0 ; j <= displacement; j++){
@@ -228,12 +228,20 @@ void panelthinking::freeGenericPtr(T *ptr){
 
 void panelthinking::on_btnSound_clicked()
 {
-    PlaySound(getCategory());
+    switch (idForm) {
+    case 0:
+        PlaySound(getCategory());
+        break;
+    case 1:
+        playList->clear();
+        playSoundAddition(getQueque());
+        break;
+    default:
+        break;
+    }
 }
 
 void panelthinking::PlaySound(int category){
-
-    QString filename, originfile;
 
     originfile="/home/johans/Escritorio/BrainCemisid-v1.5";
 
@@ -436,5 +444,31 @@ void panelthinking::PlaySound(int category){
     }
 
     sound->setMedia(QUrl::fromLocalFile(filename));
+    sound->play();
+}
+
+void panelthinking::playSoundAddition(queue queue_result_sum){
+
+    originfile = "/home/johans/Escritorio/BrainCemisid-v1.5";
+
+    int value, longitud;
+
+    QString text="", number;
+
+    longitud = Queue->queueLenght(queue_result_sum);
+
+    for(int a=0; a<longitud; a++){
+        value = Queue->dequeue(queue_result_sum);
+        text = text + QString::number(value);
+    }
+
+    for(int item =longitud-1; item >=0; item--){
+
+        number = text[item];
+        filename = originfile+"/Sounds_BrainCemisid/"+number+".mp3";
+        playList->addMedia(QUrl::fromLocalFile(filename));
+    }
+
+    sound->setPlaylist(playList);
     sound->play();
 }
