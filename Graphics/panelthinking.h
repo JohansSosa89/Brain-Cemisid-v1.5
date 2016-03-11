@@ -74,6 +74,7 @@ private:
     int hit = 0;
     struct queue queueThink;
     struct queue queueIdThink;
+    struct queue copy_result;
     int idForm;
     QString filename, originfile, text="", number;
     QMediaPlaylist *playList;

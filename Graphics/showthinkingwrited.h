@@ -22,6 +22,8 @@ public:
     queue getQueue();
     void setQueue(queue result);
     void ConvertAdditionOnWord(queue result_sum);
+    QString returnWord(int categoria);
+    void ConvertCountWord(queue word_count, int category);
     ~showThinkingwrited();
 
 private:

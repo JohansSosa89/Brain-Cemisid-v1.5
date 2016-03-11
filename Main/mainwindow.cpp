@@ -218,12 +218,12 @@ int MainWindow::obtainID(int size, int Digito){
 void MainWindow::on_pushButtonBip_clicked(){
 
     if(countNetwork->vectorNetworkCount[kNeuron]== 1){
-        ui->textBrowser->setText("KNOWN BIP");
+        //ui->textBrowser->setText("KNOWN BIP");
         std::cout<<"Cantidad Conocida"<<endl;
     }else{
         countNetwork->vectorNetworkCount[kNeuron]= 1;
         countNetwork->bipPointer[kNeuron]=kNeuron+1;
-        ui->textBrowser->setText("UNKNOWN BIP");
+        //ui->textBrowser->setText("UNKNOWN BIP");
         std::cout<<"Cantidad Desconocida"<<endl;
     }
     kNeuron++;
@@ -234,7 +234,6 @@ void MainWindow::on_pushButtonBip_clicked(){
 
 void MainWindow::processGrid(){
     std::cout<<"MainWindow::processgrid"<<endl;
-
     clearTables();
     int k=1;
 
@@ -278,7 +277,7 @@ void MainWindow::processGrid(){
 
         if(!ui->checkBox_Teach->isChecked()){
             if(stateSenses[SIGHT]== IS_HIT){
-                cout<<"neurona hizo hit"<<endl;
+                IdForm = 0;
                 showPanelThinking(SIGHT, interface[SIGHT].id[0], interface[SIGHT].arrayCategory[0],word_count,id_queue, IdForm);
             }
             else{
@@ -319,6 +318,7 @@ void MainWindow::processGrid(){
                         if(interface[HEARING].arrayCategory[0] == '='){
                             addition(adding_up, adding_down);
                             sum_loop = 0;
+                            //sumQueue->clearQueue(result);
                         }else{
                             for(k; k<=orderNeuron; k++){
                                 if(orderNetwork->numRelation[k] == interface[HEARING].id[0])
@@ -402,7 +402,7 @@ void MainWindow::processGrid(){
             formsTeaching[HEARING]->setState(stateSenses[HEARING], interface[HEARING].arrayCategory[0]);
 
         if(stateSenses[HEARING]== IS_HIT && (ui->checkBox_leer->isChecked() || ui->checkBox_syl->isChecked()) && !ui->checkBox_Teach->isChecked()){
-            cout<<"neurona hizo hit"<<endl;
+            IdForm = 0;
             showPanelThinking(HEARING, returnID(word2), returnCategory(word2),word_count, id_queue, IdForm);
             chemicalLayerEye->clear();
         }
@@ -461,7 +461,8 @@ void MainWindow::clickBum(){
     isInactivateSense[HEARING] = true;
     activeLayers(true);
     word2 = "";
-    //sumQueue->clearQueue(result);
+    sumQueue->clearQueue(word_count);
+    ui->InputWordCount->setText("");
     //////////////////////
 
     bum = 1;
@@ -529,6 +530,7 @@ void MainWindow::deactivateBip(){
     ui->pushButtonBum->setStyleSheet("*{background-color: light gray}");
     ui->pushButtonBum->setEnabled(false);
     ui->lineEditEarInput->setEnabled(false);
+    ui->InputWordCount->setEnabled(false);
     ui->pushButtonProcess->setEnabled(true);
     ui->pushButtonProcess->setStyleSheet("*{background-color: rgb(96,96,96,120)}");
     ui->pushButtonCheck->setEnabled(false);
@@ -612,6 +614,7 @@ void MainWindow::activeLayers(bool active){
     if(active){
         if(isInactivateSense[SIGHT] == true && isInactivateSense[HEARING] == true){
             ui->lineEditEarInput->clear();
+            ui->InputWordCount->clear();
             chemicalLayerEye->clear();
             chemicalLayerEar->clear();
             clearTables();
@@ -626,6 +629,9 @@ void MainWindow::activeLayers(bool active){
             ui->pushButtonBum->setEnabled(true);
             ui->pushButtonBum->setStyleSheet("*{background-color: rgb(96,96,96,120)}");
             ui->lineEditEarInput->setEnabled(false);
+            ui->InputWordCount->setEnabled(false);
+            //result.back = NULL;
+            //result.foward = NULL;
         }
     }else{
         activateInterface(active);
@@ -828,7 +834,7 @@ void MainWindow::aboutBrainCemisid(){
 
     this->setVisible(false);
     QString title = "<H2>Proyecto Brain-Cemisid</H2>";
-    QString version = "<H5>Versión 1.5 <br> <a rel=\"nofollow\" target=\"_blank\" href=\"https://github.com/ricardobru/BrainCemisid-v1.4\" onclick=\"s_objectID=\"https://braincemisidjj.googlecode.com/svn/trunk_1\";return this.s_oc?this.s_oc(e):true\"><font color=\"#505050\">https://github.com/ricardobru/BrainCemisid-v1.4/</font></a></H5><br>";
+    QString version = "<H5>Versión 1.5 <br> <a rel=\"nofollow\" target=\"_blank\" href=\"https://github.com/JohansSosa89/BrainCemisid-v1.5\" onclick=\"s_objectID=\"https://github.com/JohansSosa89/BrainCemisid-v1.5\";return this.s_oc?this.s_oc(e):true\"><font color=\"#505050\">https://github.com/JohansSosa89/BrainCemisid-v1.5/</font></a></H5><br>";
     QString description;
     description.append("<b>Proyecto de construcci&oacute;n de un cerebro usando arquitectura por capas, ");
     description.append("esta versi&oacute;n realiza la lectura comprensiva de palabras. A trav&eacute;s de la aplicaci&oacute;n, adaptaci&oacute;n y ampliaci&oacute;n de las capas desarrolladas en versiones anteriores de BrainCemisid.");
@@ -836,9 +842,7 @@ void MainWindow::aboutBrainCemisid(){
     description.append("<ol><li>Mecanismo de captura de est&iacute;mulos de los sentidos de la vista y el o&iacute;do(sensores)</li>");
     description.append("<li>Proceso de transformaci&oacute;n del est&iacute;mulo en una caracter&iacute;stica (vector 32 pos)</li>");
     description.append("<li>Creaci&oacute;n de Bloques Neuronales Sensoriales (BNS) usando Redes Neuronales de base radial desarrolladas en CEMISID (Liliana Andrade-Carlos Rangel)</li>");
-    description.append("<li>Formaci&oacute;n de palabras a trav&eacute;s del reconocimiento de s&iacute;labas</li>");
-    description.append("<li>Asociaci&oacute;n de las palabras a im&aacute;genes aprendidas anteriormente o en el momento</li>");
-    description.append("<li>Interfaz Gr&aacute;fica que muestre el funcionamiento</li></ol>");
+    description.append("<li>Interfaz Gr&aacute;fica para Definici&oacute;n del Pensamiento</li></ol>");
     QString titleProgramer = "<b>Desarrollado por:</b>";
     QString programer = "<ul style=\"list-style-type:disc\"><li>Jonathan Monsalve, Julio Muchacho (BrainCemisid v.J&J - 2014/2015)</li> <li>Ricardo Graterol (BrainCemisid v1.3 - 2015)</li> <li>Ricardo Bruzual (BrainCemisid v1.4 - 2015)</li><li>Johan Sosa (BrainCemisid v1.5 - 2016)</li></ul>";
     QString titleEmail = "<b>Direcci&oacute;n electr&oacute;nica:</b><br>";
@@ -846,7 +850,7 @@ void MainWindow::aboutBrainCemisid(){
     QString titleTutor = "<b>Bajo la Tutor&iacute;a:</b> <br>";
     QString tutor = "Dr. Gerard P&aacute;ez Monz&oacute;n <br><br>";
     QString university = "<b>Universidad de los Andes</b><br>";
-    QString lugar = "<b>M&eacute;rida, Venezuela, 2015</b>";
+    QString lugar = "<b>M&eacute;rida, Venezuela, 2016</b>";
     QMessageBox aboutBC;
     aboutBC.setWindowIcon(QPixmap("icons/brainn.png"));
     aboutBC.setIconPixmap(QPixmap("icons/brainlogo.png"));
@@ -1751,6 +1755,7 @@ void MainWindow::activateInterface(bool state){
     std::cout<<"MainWindow::activateInterface"<<endl;
 
     ui->lineEditEarInput->setEnabled(state);
+    ui->InputWordCount->setEnabled(state);
     ui->buttonClearEye->setEnabled(state);
     chemicalLayerEar->setActiveLayer(state);
     chemicalLayerEye->setActiveLayer(state);
@@ -1779,8 +1784,12 @@ void MainWindow::setNull(){
     adding_up.back = NULL;
     adding_down.foward = NULL;
     adding_down.back = NULL;
-    result.foward = NULL;
-    result.back = NULL;
+    //result.foward = NULL;
+    //result.back = NULL;
+    id_queue.foward = NULL;
+    id_queue.back = NULL;
+    word_count.foward = NULL;
+    word_count.back = NULL;
 }
 
 void MainWindow::createTablesCharacteristic(){
@@ -4440,9 +4449,13 @@ void MainWindow::paintCount(int times){
     for(int a=0; a<times; a++){
         sumQueue->enqueue(word_count, returnCategory(ui->InputWordCount->text()));
     }
+
     IdForm = 2;
     ptr = obtainID(getNumberNeurons(), returnCategory(ui->InputWordCount->text()));
     showPanelThinking(SIGHT,ptr,returnCategory(ui->InputWordCount->text()),word_count, id_queue,IdForm);
+
+    /*IdForm = 1;
+    showPanelThinking(SIGHT,0,0,result,id_queue, IdForm);*/
 }
 
 

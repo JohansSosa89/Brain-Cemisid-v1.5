@@ -29,217 +29,219 @@ queue showThinkingwrited::getQueue(){
     return result;
 }
 
-void showThinkingwrited::convertNumbertoWord(int category){
-
-    switch (category) {
+QString showThinkingwrited::returnWord(int categoria){
+    switch (categoria) {
     case 0:
-        word = "CERO";
+        return word = "CERO";
         break;
 
     case 1:
-        word = "UNO";
+        return word = "UNO";
         break;
 
     case 2:
-        word = "DOS";
+        return word = "DOS";
         break;
 
     case 3:
-        word = "TRES";
+        return word = "TRES";
         break;
 
     case 4:
-        word = "CUATRO";
+        return word = "CUATRO";
         break;
 
     case 5:
-        word = "CINCO";
+        return word = "CINCO";
         break;
 
     case 6:
-        word = "SEIS";
+        return word = "SEIS";
         break;
 
     case 7:
-        word = "SIETE";
+        return word = "SIETE";
         break;
 
     case 8:
-        word = "OCHO";
+        return word = "OCHO";
         break;
 
     case 9:
-        word = "NUEVE";
+        return word = "NUEVE";
         break;
     case 41:
-        word = "COCO";
+        return word = "COCO";
         break;
     case 42:
-        word = "CABALLO";
+        return word = "CABALLO";
         break;
     case 43:
-        word = "+";
+        return word = "+";
         break;
     case 44:
-        word = "CASA";
+        return word = "CASA";
         break;
     case 45:
-        word = "SAPO";
+        return word = "SAPO";
         break;
     case 46:
-        word = "GATO";
+        return word = "GATO";
         break;
     case 47:
-        word = "PATO";
+        return word = "PATO";
         break;
     case 48:
-        word = "CARRO";
+        return word = "CARRO";
         break;
     case 49:
-        word = "GALLO";
+        return word = "GALLO";
         break;
     case 50:
-        word = "CULEBRA";
+        return word = "CULEBRA";
         break;
     case 51:
-        word = "LEON";
+        return word = "LEON";
         break;
     case 52:
-        word = "VENADO";
+        return word = "VENADO";
         break;
     case 53:
-        word = "AVION";
+        return word = "AVION";
         break;
     case 54:
-        word = "COBRA";
+        return word = "COBRA";
         break;
     case 56:
-        word = "UNO";
+        return word = "UNO";
         break;
     case 57:
-        word = "DOS";
+        return word = "DOS";
         break;
     case 59:
-        word = "TRES";
+        return word = "TRES";
         break;
     case 61:
-        word = "=";
+        return word = "=";
         break;
     case 62:
-        word = "CUATRO";
+        return word = "CUATRO";
         break;
     case 64:
-        word = "CINCO";
+        return word = "CINCO";
         break;
     case 65:
-        word = "A";
+        return word = "A";
         break;
     case 66:
-        word = "B";
+        return word = "B";
         break;
     case 67:
-        word = "C";
+        return word = "C";
         break;
     case 68:
-        word = "D";
+        return word = "D";
         break;
     case 69:
-        word = "E";
+        return word = "E";
         break;
     case 70:
-        word = "F";
+        return word = "F";
         break;
     case 71:
-        word = "G";
+        return word = "G";
         break;
     case 72:
-        word = "H";
+        return word = "H";
         break;
     case 73:
-        word = "I";
+        return word = "I";
         break;
     case 74:
-        word = "J";
+        return word = "J";
         break;
     case 75:
-        word = "K";
+        return word = "K";
         break;
     case 76:
-        word = "L";
+        return word = "L";
         break;
     case 77:
-        word = "M";
+        return word = "M";
         break;
     case 78:
-        word = "N";
+        return word = "N";
         break;
     case 79:
-        word = "O";
+        return word = "O";
         break;
     case 80:
-        word = "P";
+        return word = "P";
         break;
     case 81:
-        word = "Q";
+        return word = "Q";
         break;
     case 82:
-        word = "R";
+        return word = "R";
         break;
     case 83:
-        word = "S";
+        return word = "S";
         break;
     case 84:
-        word = "T";
+        return word = "T";
         break;
     case 85:
-        word = "U";
+        return word = "U";
         break;
     case 86:
-        word = "V";
+        return word = "V";
         break;
     case 87:
-        word = "W";
+        return word = "W";
         break;
     case 88:
-        word = "X";
+        return word = "X";
         break;
     case 89:
-        word = "Y";
+        return word = "Y";
         break;
     case 90:
-        word = "Z";
+        return word = "Z";
         break;
     case 93:
-        word = "SEIS";
+        return word = "SEIS";
         break;
     case 96:
-        word = "SIETE";
+        return word = "SIETE";
         break;
     case 98:
-        word = "OCHO";
+        return word = "OCHO";
         break;
     case 101:
-        word = "NUEVE";
+        return word = "NUEVE";
         break;
     case 103:
-        word = "CERO";
+        return word = "CERO";
         break;
     default:
-        word = "???";
+        return word = "???";
         break;
     }
+}
+
+void showThinkingwrited::convertNumbertoWord(int category){
+
     font = ui->lblshowword->font();
     font.setPointSize(50);
     font.setBold(true);
     ui->lblshowword->setFont(font);
-    ui->lblshowword->setText(word);
+    ui->lblshowword->setText(returnWord(category));
 
 }
 
 void showThinkingwrited::ConvertAdditionOnWord(queue result_sum){
 
     longitud = Queue->queueLenght(result_sum);
-
     font = ui->lblshowword->font();
     font.setBold(true);
     switch (longitud) {
@@ -267,44 +269,40 @@ void showThinkingwrited::ConvertAdditionOnWord(queue result_sum){
 
     for(int a=longitud - 1;a>=0; a--){
 
-        switch (text[a].digitValue()) {
-        case 0:
-            word = "CERO";
-            break;
-        case 1:
-            word = "UNO";
-            break;
-        case 2:
-            word = "DOS";
-            break;
-        case 3:
-            word = "TRES";
-            break;
-        case 4:
-            word = "CUATRO";
-            break;
-        case 5:
-            word = "CINCO";
-            break;
-        case 6:
-            word = "SEIS";
-            break;
-        case 7:
-            word = "SIETE";
-            break;
-        case 8:
-            word = "OCHO";
-            break;
-        case 9:
-            word = "NUEVE";
-            break;
-        default:
-            word = "???";
-            break;
-        }
-
+        word = returnWord(text[a].digitValue());
         result_word = result_word+" "+word;
     }
+    ui->lblshowword->setFont(font);
+    ui->lblshowword->setText(result_word);
+}
+
+void showThinkingwrited::ConvertCountWord(queue word_count, int category){
+    longitud = Queue->queueLenght(word_count);
+    font = ui->lblshowword->font();
+    font.setBold(true);
+    font.setPointSize(30);
+
+    value = returnWord(longitud);
+    word = returnWord(category);
+
+    if(longitud==1){
+        if(word=="CASA"){
+            value = "UNA";
+        }
+        else{
+            value = "UN";
+        }
+        result_word = value+" "+word;
+    }else{
+        if(word=="AVION"){
+            result_word = value+" "+word+"ES";
+        }
+        else{
+            result_word = value+" "+word+"S";
+        }
+
+    }
+
     ui->lblshowword->setFont(font);
     ui->lblshowword->setText(result_word);
 }

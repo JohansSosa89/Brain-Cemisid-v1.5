@@ -3,12 +3,12 @@ rankdir=LR;
 subgraph cluster_0{ }
 subgraph cluster_1{ }
 subgraph cluster_2{ }
-subgraph cluster_3{ "item132" [label=  "id Neurona: 132\nCategor&iacute;a: '3'"];
-}
+subgraph cluster_3{ }
 subgraph cluster_4{ }
 subgraph cluster_5{ }
 subgraph cluster_6{ }
-subgraph cluster_7{ }
+subgraph cluster_7{ "item105" [label=  "id Neurona: 105\nCategor&iacute;a: '7'"];
+}
 subgraph cluster_8{ }
 subgraph cluster_9{ }
 subgraph cluster_10{ }
@@ -87,12 +87,13 @@ subgraph cluster_82{ }
 subgraph cluster_83{ }
 subgraph cluster_84{ }
 subgraph cluster_85{ }
-subgraph cluster_86{ "item86TRE" [label=  "id Neurona: 85\nCategor&iacute;a: 'TRE'"];
-"item86S" [label=  "id Neurona: 30\nCategor&iacute;a: 'S'"];
-"item100" [label=  "id Neurona: 100\nCategor&iacute;a: 'TRES'"];
-}
+subgraph cluster_86{ }
 subgraph cluster_87{ }
-subgraph cluster_88{ }
+subgraph cluster_88{ "item88CU" [label=  "id Neurona: 58\nCategor&iacute;a: 'CU'"];
+"item88A" [label=  "id Neurona: 12\nCategor&iacute;a: 'A'"];
+"item88TRO" [label=  "id Neurona: 87\nCategor&iacute;a: 'TRO'"];
+"item101" [label=  "id Neurona: 101\nCategor&iacute;a: 'CUATRO'"];
+}
 subgraph cluster_89{ }
 subgraph cluster_90{ }
 subgraph cluster_91{ }

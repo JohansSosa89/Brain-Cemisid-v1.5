@@ -111,7 +111,7 @@ void panelthinking::on_pushButton_3_clicked()
 
 void panelthinking::on_btnthinkword_clicked()
 {
-    showThinkingWrited(getCategory(), getQueque());
+    showThinkingWrited(getCategory(), copy_result);
 }
 
 void panelthinking::showThinkingWrited(int category, queue result_sum){
@@ -124,10 +124,10 @@ void panelthinking::showThinkingWrited(int category, queue result_sum){
         if(idForm == 1){
             showthinkingwrited->ConvertAdditionOnWord(result_sum);
         }
+        else{
+            showthinkingwrited->ConvertCountWord(getQueque(), category);
+        }
     }
-
-
-
 
     this->setVisible(false);
     if(showthinkingwrited->exec() == QDialog::Rejected)
@@ -463,6 +463,7 @@ void panelthinking::playSoundAddition(queue queue_result_sum){
 
     for(int a=0; a<longitud; a++){
         value = Queue->dequeue(queue_result_sum);
+        Queue->enqueue(copy_result,value);
         text = text + QString::number(value);
     }
 

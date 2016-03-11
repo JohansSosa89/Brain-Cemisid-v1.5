@@ -1,2 +1,26 @@
 graph net_neuron{
 rankdir=LR;
+subgraph cluster_75{ "item75CA" [label= "id Neurona: 40\nCategor&iacute;a: 'CA'"];
+"item75RRO" [label= "id Neurona: 52\nCategor&iacute;a: 'RRO'"];
+"item20" [label=  "id Neurona: 20\nCategor&iacute;a: 'CARRO'"];
+}
+}
+subgraph cluster_70{ "item70CA" [label= "id Neurona: 40\nCategor&iacute;a: 'CA'"];
+"item70BA" [label= "id Neurona: 39\nCategor&iacute;a: 'BA'"];
+"item70LLO" [label= "id Neurona: 41\nCategor&iacute;a: 'LLO'"];
+"item25" [label=  "id Neurona: 25\nCategor&iacute;a: 'CABALLO'"];
+"item29" [label=  "id Neurona: 29\nCategor&iacute;a: 'CABALLO'"];
+"item35" [label=  "id Neurona: 35\nCategor&iacute;a: 'CABALLO'"];
+"item45" [label=  "id Neurona: 45\nCategor&iacute;a: 'CABALLO'"];
+"item46" [label=  "id Neurona: 46\nCategor&iacute;a: 'CABALLO'"];
+"item47" [label=  "id Neurona: 47\nCategor&iacute;a: 'CABALLO'"];
+"item56" [label=  "id Neurona: 56\nCategor&iacute;a: 'CABALLO'"];
+}
+}
+subgraph cluster_77{ "item77CU" [label= "id Neurona: 58\nCategor&iacute;a: 'CU'"];
+"item77LE" [label= "id Neurona: 59\nCategor&iacute;a: 'LE'"];
+"item77BRA" [label= "id Neurona: 56\nCategor&iacute;a: 'BRA'"];
+"item80" [label=  "id Neurona: 80\nCategor&iacute;a: 'CULEBRA'"];
+"item143" [label=  "id Neurona: 143\nCategor&iacute;a: 'CULEBRA'"];
+}
+}
