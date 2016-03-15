@@ -2,7 +2,6 @@
 #include "ui_dialogconsultneuron.h"
 
 DialogConsultNeuron::DialogConsultNeuron(const unsigned char *ptrHearing,const unsigned char* ptrSight, QWidget *parent) : QDialog(parent), ui(new Ui::DialogConsultNeuron){
-    std::cout<<"DialogConsultNeuron::DialogConsultNeuron"<<std::endl;
 
     ui->setupUi(this);
     ptrNeuron = new unsigned char [2];
@@ -21,26 +20,22 @@ DialogConsultNeuron::DialogConsultNeuron(const unsigned char *ptrHearing,const u
 }
 
 senses DialogConsultNeuron::radioButtonActive(){
-    std::cout<<"DialogConsultNeuron::radioButtonActive"<<std::endl;
     if(ui->radioButtonSight->isChecked())
         return SIGHT;
     return HEARING;
 }
 
 int DialogConsultNeuron::returnIdNeuron(){
-    std::cout<<"DialogConsultNeuron::returnIdNeuron"<<std::endl;
 
     return(ui->lineEdit->text().toInt());
 }
 
 void DialogConsultNeuron::setLimits(QString text){
-    std::cout<<"DialogConsultNeuron::setLimits"<<std::endl;
 
     ui->labelLimits->setText(text);
 }
 
 void DialogConsultNeuron::setRegularExp(unsigned char number){
-    std::cout<<"DialogConsultNeuron::setRegularExp"<<std::endl;
 
     QString exp("\\d{0,");
     QString stringNumber= QString::number(number);
@@ -55,7 +50,6 @@ DialogConsultNeuron::~DialogConsultNeuron(){
 }
 
 QString DialogConsultNeuron::textLimits(const unsigned char number){
-    std::cout<<"DialogConsultNeuron::textLimits"<<std::endl;
 
     QString text("<font color ='red'> Introduzca un n&uacute;mero natural menor a ");
     text.append(QString::number(number));
@@ -64,7 +58,6 @@ QString DialogConsultNeuron::textLimits(const unsigned char number){
 }
 
 void DialogConsultNeuron::changeSight(){
-    std::cout<<"DialogConsultNeuron::changeSigth"<<std::endl;
 
     ui->lineEdit->clear();
     ui->labelLimits->setText(textLimits(ptrNeuron[SIGHT]));
@@ -72,7 +65,6 @@ void DialogConsultNeuron::changeSight(){
 }
 
 void DialogConsultNeuron::changeHearing(){
-    std::cout<<"DialogConsultNeuron::changeHearing"<<std::endl;
 
     ui->lineEdit->clear();
     ui->labelLimits->setText(textLimits(ptrNeuron[HEARING]));
@@ -80,7 +72,6 @@ void DialogConsultNeuron::changeHearing(){
 }
 
 void DialogConsultNeuron::checkText(){
-    std::cout<<"DialogConsultNeuron::checkText"<<std::endl;
 
     if(ui->lineEdit->text().isEmpty()){
         ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);

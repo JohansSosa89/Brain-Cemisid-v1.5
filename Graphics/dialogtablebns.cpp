@@ -9,7 +9,6 @@ DialogTableBNS::DialogTableBNS(QWidget *parent, const NeuralNetwork *neuralSense
 }
 
 void DialogTableBNS::fillLineEdits(const SizeNet *sizeNet){
-    std::cout<<"DialogTableBNS::fillLineEdits"<<std::endl;
 
     int mem = sizeNet->sizevectorFlags + sizeNet->sizeVectorNeuron + sizeNet->sizeBinaryCharacteristic;
     int maxNeuron = sizeNet->numNeuron;
@@ -22,7 +21,7 @@ void DialogTableBNS::fillLineEdits(const SizeNet *sizeNet){
 }
 
 void DialogTableBNS::fillAllTables(){
-    std::cout<<"DialogTableBNS::fillAllTables"<<std::endl;
+
 
     fillTable(&neuralSenses[SIGHT], ui->tableWidgetSight);
     fillTable(&neuralSenses[HEARING], ui->tableWidgetHearing);
@@ -31,7 +30,6 @@ void DialogTableBNS::fillAllTables(){
 }
 
 void DialogTableBNS::fillTable(const NeuralNetwork *neuralSenses, QTableWidget *&table){
-    std::cout<<"DialogTableBNS::fillTable"<<std::endl;
 
     int numNeuron = *(neuralSenses->ptr);
     if(numNeuron == 0){
@@ -70,8 +68,6 @@ void DialogTableBNS::fillTable(const NeuralNetwork *neuralSenses, QTableWidget *
 }
 
 void DialogTableBNS::createHeaderRow(QTableWidget *table, int rows){
-    std::cout<<"DialogTableBNS::createHeaderRow"<<std::endl;
-
     QStringList list;
     table->setRowCount(rows);
     for(int i=0; i<rows; i++)
@@ -84,21 +80,18 @@ DialogTableBNS::~DialogTableBNS(){
 }
 
 void DialogTableBNS::reciveRowSight(QModelIndex index){
-    std::cout<<"DialogTableBNS::reciveRowSight"<<std::endl;
 
     if(index.column() == CENTER)
         paintBinaryCharacteristic(SIGHT,ui->tableWidgetSight->item(index.row(),ID)->text().toInt());
 }
 
 void DialogTableBNS::reciveRowHearing(QModelIndex index){
-    std::cout<<"DialogTableBNS::reciveRowHearing"<<std::endl;
 
     if(index.column() == CENTER)
         paintBinaryCharacteristic(HEARING, ui->tableWidgetHearing->item(index.row(),ID)->text().toInt());    
 }
 
 void DialogTableBNS::paintBinaryCharacteristic(senses sense, int ptr){
-    std::cout<<"DialogTableBNS::paintBinaryCharacteristic"<<std::endl;
 
     unsigned short displacement = 8 * sizeof (unsigned short) -1;
     unsigned short mask = 1 << displacement;

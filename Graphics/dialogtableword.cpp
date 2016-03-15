@@ -3,7 +3,6 @@
 
 QString word;
 DialogTableWord::DialogTableWord(QWidget *parent, const NeuralNetwork *neuralSenses, const SizeNet *sizeNet, QString word2) : QDialog(parent), ui(new Ui::DialogTableOfWord){
-   std::cout<<"DialogTableWord::DialogTableWord"<<std::endl;
 
     ui->setupUi(this);
     this->neuralSenses = neuralSenses;
@@ -14,7 +13,7 @@ DialogTableWord::DialogTableWord(QWidget *parent, const NeuralNetwork *neuralSen
 }
 
 void DialogTableWord::fillLineEditsWord(const SizeNet *sizeNet){
-    std::cout<<"DialogTableWord::fillLineEditsWord"<<std::endl;
+
 
     int mem = sizeNet->sizevectorFlags + sizeNet->sizeVectorNeuron + sizeNet->sizeBinaryCharacteristic;
     int maxNeuron = sizeNet->numNeuron;
@@ -24,13 +23,12 @@ void DialogTableWord::fillLineEditsWord(const SizeNet *sizeNet){
 }
 
 void DialogTableWord::fillAllTableWord(){
-    std::cout<<"DialogTableWord::fillAllTableWord"<<std::endl;
 
     connect(ui->tableWidget, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(reciveRowSight(QModelIndex)));
 }
 
 void DialogTableWord::fillTableWord(QTableWidget *&table, QString word){
-    std::cout<<"DialogTableWord::fillTableWord"<<std::endl;
+
 
     int numNeuron = *(neuralSenses[SIGHT].ptr);
     if(numNeuron == 0){
@@ -68,7 +66,7 @@ void DialogTableWord::fillTableWord(QTableWidget *&table, QString word){
 }
 
 void DialogTableWord::createHeaderRow(QTableWidget *table, int rows){
-    std::cout<<"DialogTableWord::createHeaderRow"<<std::endl;
+
 
     QStringList list;
     table->setRowCount(rows);
@@ -82,14 +80,14 @@ DialogTableWord::~DialogTableWord(){
 }
 
 void DialogTableWord::reciveRowSight(QModelIndex index){
-    std::cout<<"DialogTableWord::reciveRowSight"<<std::endl;
+
 
     if(index.column() == CENTER1)
         paintBinaryCharacteristic(SIGHT,ui->tableWidget->item(index.row(),ID1)->text().toInt());
 }
 
 void DialogTableWord::paintBinaryCharacteristic(senses sense, int ptr){
-    std::cout<<"DialogTableWord::paintBinaryCharacteristic"<<std::endl;
+
 
     unsigned short displacement = 8 * sizeof (unsigned short) -1;
     unsigned short mask = 1 << displacement;
@@ -116,7 +114,6 @@ void DialogTableWord::paintBinaryCharacteristic(senses sense, int ptr){
 }
 
 int DialogTableWord::returnCategory(QString cad){
-   // std::cout<<"DialogTableWord::returnCategory"<<std::endl;
 
     if(cad != "=" && cad != "+" && cad != "A" && cad != "B" && cad != "C" && cad != "D" && cad != "E" && cad != "F" && cad != "G" && cad != "H" && cad != "I" && cad != "J" && cad != "K"
             && cad != "L" && cad != "M" && cad != "N" && cad != "O" && cad != "P" && cad != "Q" && cad != "R" && cad != "S" && cad != "T" && cad != "U" && cad != "V" && cad != "W" && cad != "X"

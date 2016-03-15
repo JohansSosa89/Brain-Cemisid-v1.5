@@ -16,7 +16,6 @@ ChemicalLayer::~ChemicalLayer(){
 }
 
 void ChemicalLayer::intializeInterface(int amountWidth, int amountHeight, int width, int height){
-    std::cout<<"ChemicalLayer::initializeInterface"<<std::endl;
 
     m_amountWidth = amountWidth;
     m_amountHeight = amountHeight;
@@ -35,7 +34,6 @@ void ChemicalLayer::intializeInterface(int amountWidth, int amountHeight, int wi
 }
 
 unsigned char *ChemicalLayer::generateCharacteristic(){
-    std::cout<<"ChemicalLayer::initializeInterface"<<std::endl;
 
     unsigned char  sumRow=0,sumCol=0; //considerare que es cuadrada si no lo es no funciona
     unsigned char *vectorCharacteristic=new unsigned char[32];
@@ -54,7 +52,6 @@ unsigned char *ChemicalLayer::generateCharacteristic(){
 }
 
 unsigned short * ChemicalLayer::generateBinaryCharacteristic(){
-    std::cout<<"ChemicalLayer::generateBinaryCharacteristic"<<std::endl;
 
     unsigned short  sumRow=0; //considerare que es cuadrada si no lo es no funciona
     unsigned short * vectorCharacteristic = new unsigned short [16];
@@ -74,7 +71,6 @@ recibe: un puntero del vector a pintar y el numero de filas
 returna: vacio
 */
 void ChemicalLayer::paintPattern(const int *vector,const int &numRows){
-    std::cout<<"ChemicalLayer::paintPattern"<<std::endl;
 
     int displacement = 8 * sizeof (int) -1;
     int mask;
@@ -96,18 +92,15 @@ void ChemicalLayer::paintPattern(const int *vector,const int &numRows){
 }
 
 bool ChemicalLayer::getIsEditable() const{
-    std::cout<<"ChemicalLayer::getIsEditable"<<std::endl;
 
     return isEditable;
 }
 
 void ChemicalLayer::setIsEditable(bool value){
-    std::cout<<"ChemicalLayer::setIsEditable"<<std::endl;
 
     isEditable = value;
 }
 void ChemicalLayer::crateLayer(){
-    std::cout<<"ChemicalLayer::crateLayer"<<std::endl;
 
     for(int x = 0; x < m_amountWidth; x++){
         QList<QGraphicsRectItem*> line;
@@ -122,18 +115,15 @@ void ChemicalLayer::crateLayer(){
 }
 
 QColor ChemicalLayer::activeColor(){
-    std::cout<<"ChemicalLayer::activeColor"<<std::endl;
 
     return m_activeColor;
 }
 
 QColor ChemicalLayer::inactiveColor(){
-    std::cout<<"ChemicalLayer::inactiveColor"<<std::endl;
     return m_inactiveColor;
 }
 
 void ChemicalLayer::newActiveColor(){
-    std::cout<<"ChemicalLayer::newActiveColor"<<std::endl;
 
     QColor color = QColorDialog::getColor(m_activeColor);
     if (color.isValid() && color != m_activeColor) {
@@ -145,7 +135,6 @@ void ChemicalLayer::newActiveColor(){
 }
 
 void ChemicalLayer::newInactiveColor(){
-    std::cout<<"ChemicalLayer::newInactiveColor"<<std::endl;
 
     QColor color = QColorDialog::getColor(m_inactiveColor);
     if (color.isValid() && color != m_inactiveColor) {
@@ -157,24 +146,20 @@ void ChemicalLayer::newInactiveColor(){
 }
 
 void ChemicalLayer::setDefaultColor(){
-    std::cout<<"ChemicalLayer::setDefaultColor"<<std::endl;
 
     m_activeColor = QColor("gray");
     m_inactiveColor = QColor("white");
 }
 
 void ChemicalLayer::setActiveLayer(bool activeLayer){
-    std::cout<<"ChemicalLayer::setActiveLayer"<<std::endl;
     this->activeLayer = activeLayer;
 }
 
 bool ChemicalLayer::getNoData(){
-    std::cout<<"ChemicalLayer::getNoData"<<std::endl;
     return noData;
 }
 
 void ChemicalLayer::clear(){
-    std::cout<<"ChemicalLayer::clear"<<std::endl;
 
     if(countRectActivate == 0)
         return;
@@ -187,12 +172,10 @@ void ChemicalLayer::clear(){
 }
 
 QList<QList<bool> >& ChemicalLayer::state(){
-    std::cout<<"ChemicalLayer::state"<<std::endl;
     return m_state;
 }
 
 void ChemicalLayer::setState(int x,int y,bool s){
-   // std::cout<<"ChemicalLayer::setState"<<std::endl;
 
     if (s)
         m_grid[x][y]->setBrush(QBrush(m_activeColor,Qt::SolidPattern));
@@ -202,19 +185,16 @@ void ChemicalLayer::setState(int x,int y,bool s){
 }
 
 int ChemicalLayer::width(){
-    std::cout<<"ChemicalLayer::width"<<std::endl;
 
     return m_amountWidth;
 }
 
 int ChemicalLayer::height(){
-    std::cout<<"ChemicalLayer::height"<<std::endl;
 
     return m_amountHeight;
 }
 
 void ChemicalLayer::mouseMoveEvent(QMouseEvent* event){
-    std::cout<<"ChemicalLayer::mouseMoveEvent"<<std::endl;
 
     if((!m_leftMousePressed && !m_rightMousePressed) || !activeLayer || !isEditable)
         return;
@@ -242,7 +222,6 @@ void ChemicalLayer::mouseMoveEvent(QMouseEvent* event){
 }
 
 void ChemicalLayer::mousePressEvent(QMouseEvent* event){
-    std::cout<<"ChemicalLayer::mousePressEvent"<<std::endl;
 
     if(!activeLayer || !isEditable)
         return;
@@ -274,8 +253,6 @@ void ChemicalLayer::mousePressEvent(QMouseEvent* event){
 }
 
 void ChemicalLayer::mouseReleaseEvent(QMouseEvent* event){
-    std::cout<<"ChemicalLayer::mouseReleaseEvent"<<std::endl;
-
     if (event->button() == Qt::LeftButton)
         m_leftMousePressed = false;
     if (event->button() == Qt::RightButton)
@@ -283,7 +260,6 @@ void ChemicalLayer::mouseReleaseEvent(QMouseEvent* event){
 }
 
 QGraphicsRectItem* ChemicalLayer::getNode(const QPoint& pos){
-    std::cout<<"ChemicalLayer::getNode"<<std::endl;
 
     int x = pos.x();
     int y = pos.y();
@@ -295,7 +271,6 @@ QGraphicsRectItem* ChemicalLayer::getNode(const QPoint& pos){
 }
 
 bool* ChemicalLayer::getNodeState(const QPoint& pos){
-    std::cout<<"ChemicalLayer::getNodeState"<<std::endl;
 
     int x = pos.x();
     int y = pos.y();

@@ -138,7 +138,7 @@ void panelthinking::showThinkingWrited(int category, queue result_sum){
 }
 
 void panelthinking::paintBinaryNetSyllab(int ID, int Category){
-    std::cout<<"MainWindow::paintBinarySyllab"<<endl;
+
 
     int numNeuron = *(neuralSenses[SIGHT].ptr);
     for(int id=0; id<numNeuron; id++){
@@ -158,7 +158,6 @@ void panelthinking::paintBinaryNetSyllab(int ID, int Category){
         }
     }
     hit = 0;
-    //ui->pushButtonImage->setEnabled(true);
 }
 
 void panelthinking::paintBinaryCharacteristicAddition(senses sense, queue result_queque, queue id_queque){

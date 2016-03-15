@@ -119,16 +119,6 @@ private slots:
     void on_pushButtonBip_clicked();
     void on_checkBox_cuento_clicked();
 
-    /*void on_pushButtonBipWord_clicked();
-
-    void on_pushButtonBipSyl_clicked();
-
-    void on_pushButtonProcess_clicked();
-
-    void on_actionInstrucciones_triggered();
-
-    void on_pushButtonImage_clicked();*/
-
 private:
     Ui::MainWindow *ui;
     QImage *image;
@@ -183,11 +173,6 @@ private:
     void initGui();
     void activateInterface(bool state);
     void setNull();
-   /* void freeVectorsCharacteristic();
-    void freeFormTeaching();
-    void freeStates();
-    void freeSenses();
-    void freeInterface();*/
     void freeUi();
     void freeMem();
     void generateVectorsCharacteristic();
@@ -220,11 +205,8 @@ private:
     void buildRelation(unsigned char);
     void initializeRelation(int);
     unsigned char checkInRelationNet();
-//    void think(senses senses);
     void initializeCuturalNet(int);
     void freeCulturalNet();
-    /*template<class T>
-    void freeGenericPtr(T *ptr);*/
     void printAllVectorSenses();
     void printVectorSenses(senses sense);
     void printIdsNeuronHit(senses sense);
